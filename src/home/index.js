@@ -1,59 +1,88 @@
 import React, { Component } from "react";
 import {
     Container,
-    Divider,
-    Dropdown,
-    Grid,
     Header,
     Image,
-    List,
-    Menu,
-    Segment,
     Button,
   } from 'semantic-ui-react'
-  import {
-    BrowserRouter as Router,
-    Route,
-    Link
-  } from 'react-router-dom'
-  import app from '../base'
+import { Link } from 'react-router-dom';
+import withAuthorization from '../components/withAuthorization';
+import AuthUserContext from '../components/AuthUserContext';
+import { db } from '../firebase';
+import * as routes from '../constants/routes';
+import axios from 'axios';
+
+const byPropKey = (propertyName, value) => () => ({
+  [propertyName]: value,
+});
 
 class HomeContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          
+          season: null,
         };
     }
   ComponentWillMount() {
-      
+    axios.get(`http://ergast.com/api/f1/2018`)
+    .then( res => {
+      const season = res.MRData.RaceTable;
+      this.setState(byPropKey('season',season));
+    })
   }
+
+  addUser = (user) => {
+    const { history } = this.props;
+      db.doCreateUser(user.uid, user.displayName, user.email)
+      .then(() => {
+        history.push(routes.ACCOUNT);
+      })
+      .catch(error => {
+        console.log(error.message);
+      });
+    
+  }
+
+  getSeason = () => {
+    axios.get(`http://ergast.com/api/f1/2018.json`)
+      .then( res => {
+        const season = res.data.MRData.RaceTable;
+        this.setState(byPropKey('season',season));
+        console.log(res);
+      });
+  }
+
   goToProfile(event){
     event.preventDefault();
     this.props.history.push('/profile');
   }
-  handleClick(){
-    app.auth().signOut().then(function() {
-      console.log('Signed Out');
-    }, function(error) {
-      console.error('Sign Out Error', error);
-    });
-  }
   render() {
     return (
-      <Container text style={{ marginTop: '7em' }}>
-      <Image src='/logo.png' size='large' style={{ marginTop: '2em' }} />
-        <Header as='h1'>Fanstasy F1</Header>
-        <p>Hi {this.props.user.displayName}, this is a basic app in an effort to manage the data better.</p>
-        <p>
-          I'm happy to hear your thoughts on this and any ideas to take it further.
-        </p>
-        <p className=''>
-        <Link to="/profile"> You can edit your profile here.</Link>
-        </p>
-      </Container>
+      <AuthUserContext.Consumer>
+        {authUser => 
+          <Container text style={{ marginTop: '7em' }}>
+          <Image src='/logo.png' size='large' style={{ marginTop: '2em' }} />
+            <Header as='h1'>Fanstasy F1</Header>
+            <p>Hi {authUser.displayName}, this is a basic app in an effort to manage the data better.</p>
+            <p>
+              I'm happy to hear your thoughts on this and any ideas to take it further.
+            </p>
+            <p className=''>
+            <Link to="/profile"> You can edit your profile here.</Link>
+            </p>
+            <p>
+              <Button onClick={() => this.addUser(authUser)} >Add User to DB</Button>
+            </p>
+            <p>
+              <Button onClick={() => this.getSeason()} >Get Season Data</Button>
+            </p>
+          </Container>
+        }
+      </AuthUserContext.Consumer>
     );
   }
 }
 
-export default HomeContainer;
+const authCondition = (authUser) => !! authUser;
+
+export default withAuthorization(authCondition)(HomeContainer);

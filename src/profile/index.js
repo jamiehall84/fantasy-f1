@@ -1,6 +1,5 @@
 import React from 'react'
 import {Container, Grid, Header, Form, Segment, Button, Icon} from 'semantic-ui-react'
-import app from '../base'
 import { withRouter } from "react-router-dom";
 
 class Profile extends React.Component{
@@ -17,18 +16,18 @@ class Profile extends React.Component{
         change[e.target.name] = e.target.value
         this.setState(change)
     }
-    onSubmit= () =>{
-        const user = app.auth().currentUser;
-        user.updateProfile({
-            displayName: this.state.displayName
-          }).then(function() {
-            // Update successful.
-            this.props.history.push('/');
-          }).catch(function(error) {
-            // An error happened.
-            console.log(error);
-          });
-    }
+    // onSubmit= () =>{
+    //     const user = app.auth().currentUser;
+    //     user.updateProfile({
+    //         displayName: this.state.displayName
+    //       }).then(function() {
+    //         // Update successful.
+    //         this.props.history.push('/');
+    //       }).catch(function(error) {
+    //         // An error happened.
+    //         console.log(error);
+    //       });
+    // }
     render(){
         return(
             <Container style={{ marginTop: '7em' }}>

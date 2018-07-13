@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
+import { Container, Button, Form, Grid, Header, Image, Segment } from 'semantic-ui-react'
 
 
 const LoginView = ({onSubmit}) => {

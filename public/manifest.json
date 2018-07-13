@@ -1,5 +1,5 @@
 {
-  "short_name": "Fantast F1",
+  "short_name": "Fantasy F1",
   "name": "Fantasy F1 Results [BETA]",
   "icons": [
     {
@@ -15,7 +15,7 @@
   ],
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
-  "start_url": "/?utm_source=homescreen",
+  "start_url": "/",
   "display": "standalone",
   "orientation": "portrait"
 }
