@@ -26,6 +26,10 @@ const NavigationAuth = () =>
           <Icon name='user' />
           Profile
       </Menu.Item>
+      <Menu.Item as={Link} to={routes.ADMIN}>
+          <Icon name='user' />
+          Admin
+      </Menu.Item>
       <SignOutButton />
   </div>
 

@@ -18,6 +18,8 @@ import {
 import * as routes from './constants/routes';
 import withAuthentication from './components/withAuthentication';
 import Navigation from './components/Navigation';
+import AdminPage from './components/Admin';
+import Race from './components/Race';
 
 
 class App extends React.Component {
@@ -65,6 +67,8 @@ class App extends React.Component {
                         <Route exact path={routes.HOME} component={()=><HomeContainer />} />
                         <Route exact path={routes.ACCOUNT} component={() => <AccountPage />} />
                         <Route exact path={routes.PASSWORD_FORGET} component={() => <PasswordForgetPage />} />
+                        <Route exact path={routes.ADMIN} component={() => <AdminPage />} />
+                        <Route exact path={routes.RACE} component={Race} />
                     </Sidebar.Pusher>
                 </Sidebar.Pushable>
                 

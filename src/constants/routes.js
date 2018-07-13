@@ -4,3 +4,5 @@ export const LANDING = '/';
 export const HOME = '/home';
 export const ACCOUNT = '/profile';
 export const PASSWORD_FORGET = '/pw-forget';
+export const ADMIN = '/admin';
+export const RACE = '/race/:year/:race'

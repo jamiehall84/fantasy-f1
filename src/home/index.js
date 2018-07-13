@@ -24,23 +24,25 @@ class HomeContainer extends Component {
         };
     }
   ComponentWillMount() {
-    axios.get(`http://ergast.com/api/f1/2018`)
-    .then( res => {
-      const season = res.MRData.RaceTable;
-      this.setState(byPropKey('season',season));
-    })
+    
+    // axios.get(`http://ergast.com/api/f1/2018`)
+    // .then( res => {
+    //   const season = res.MRData.RaceTable;
+    //   this.setState(byPropKey('season',season));
+    // })
   }
 
   addUser = (user) => {
-    const { history } = this.props;
-      db.doCreateUser(user.uid, user.displayName, user.email)
-      .then(() => {
-        history.push(routes.ACCOUNT);
-      })
-      .catch(error => {
-        console.log(error.message);
-      });
-    
+    // const { history } = this.props;
+    //   db.doCreateUser(user.uid, user.displayName, user.email)
+    //   .then(() => {
+    //     history.push(routes.ACCOUNT);
+    //   })
+    //   .catch(error => {
+    //     console.log(error.message);
+    //   });
+    console.log(`PROPS ARE ${this.props.history}`);
+    this.props.history.push('/profile');
   }
 
   getSeason = () => {
