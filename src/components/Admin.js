@@ -41,21 +41,25 @@ class AdminPage extends Component {
                     for (let index = 0; index < season.Races.length; index++) {
                         db.doCreateRace(
                             season.season,
-                            season.Races[index].round,
-                            season.Races[index].Circuit.circuitName,
-                            season.Races[index].Circuit.Location.country,
-                            season.Races[index].Circuit.Location.locality,
-                            season.Races[index].raceName,
+                            season.Races[index].Circuit,
                             season.Races[index].date,
-                            season.Races[index].time
+                            season.Races[index].raceName,
+                            season.Races[index].round,
+                            season.Races[index].time,
+                            season.Races[index].season,
+                            season.Races[index].url,
+                            null,
+                            null,
+                            null
                         )
                             .then(() => {
                                 console.log(`${season.Races[index].raceName} has been added to the database.`);
                             }).catch(error => {
                                 console.log(error.message);
                             })
-                        
+                            this.setState(() => ({races: season.Races }))
                     }
+
                 })
                 .catch(error => {
                     console.log(error.message);
@@ -71,7 +75,7 @@ class AdminPage extends Component {
                     <Container text style={{ marginTop: '7em' }}>
                         <Header as='h1'>Fanstasy F1 Admin</Header>
                         { !!seasons && <SeasonList seasons={seasons} /> }
-                        { !!seasons && <RaceList races={races} /> }
+                        { !!races && <RaceList races={races} /> }
                         <p>
                             <Button onClick={() => this.getSeason()} >Get Season Data</Button>
                         </p>
@@ -100,6 +104,7 @@ const SeasonList = ({ seasons }) => (
 );
 
 const RaceList = ({ races }) => (
+    
     <div>
         <h2>Races this season</h2>
         <List divided relaxed>
