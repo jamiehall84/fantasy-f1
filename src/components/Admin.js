@@ -23,7 +23,7 @@ class AdminPage extends Component {
           races: null
         };
     }
-    componentDidMount(){
+    componentWillMount(){
         db.getSeasons().then(s =>
             this.setState(() => ({seasons: s.val() }))
         );
@@ -52,8 +52,11 @@ class AdminPage extends Component {
                             null,
                             null
                         )
+                        
                             .then(() => {
                                 console.log(`${season.Races[index].raceName} has been added to the database.`);
+                                this.getQualifying(season.Races[index]);
+                                this.getResults(season.Races[index]);
                             }).catch(error => {
                                 console.log(error.message);
                             })
@@ -66,7 +69,35 @@ class AdminPage extends Component {
                 });
           });
       }
+      getQualifying = (race) => {
+        axios.get(`http://ergast.com/api/f1/2018/${race.round}/qualifying.json`)
+          .then( res => {
+            const data = res.data.MRData.RaceTable;
+            if(data.Races[0]!=null){
+                db.doSetQualifying(race.season, race.round, data.Races[0].QualifyingResults)
+                .then(() => {
+                    console.log(`Qualifying for this race have been added to the database.`);
+                }).catch(error => {
+                    console.log(error.message);
+                })
+            }
+          });
+      }
 
+      getResults = (race) => {
+        axios.get(`http://ergast.com/api/f1/2018/${race.round}/results.json`)
+          .then( res => {
+            const data = res.data.MRData.RaceTable;
+            if(data.Races[0]!=null){
+                db.doSetResults(race.season, race.round, data.Races[0].Results)
+                .then(() => {
+                    console.log(`Results for this race have been added to the database.`);
+                }).catch(error => {
+                    console.log(error.message);
+                })
+            }
+          });
+      }
       render(){
           const { seasons, races } = this.state;
           return(
