@@ -11,6 +11,7 @@ import {
     Dimmer,
     Loader
   } from 'semantic-ui-react'
+  import AddPlayerForm from './AddPlayerForm';
 
 class SeasonPage extends Component {
     constructor(props) {
@@ -28,7 +29,14 @@ class SeasonPage extends Component {
             this.setState(() => ({season: s.val() }))
         );
     }
-    
+    addSeason = () => {
+        const { season } = this.state;
+        debugger;
+        db.getSeason(season.year).then(s =>
+            this.setState(() => ({season: s.val() }))
+        );
+    }
+
       render(){
           const { season } = this.state;
           return(
@@ -44,6 +52,7 @@ class SeasonPage extends Component {
                 
                     <Container text style={{ marginTop: '7em' }}>
                         <Header as='h1' color='red'>{season.year}</Header>
+                        <PlayerList season={season} addSeason={this.addSeason} />
                         { !!season.races && <RaceList races={season.races} season={season.year} /> }
                     </Container>
                     )
@@ -52,7 +61,26 @@ class SeasonPage extends Component {
           );
       }
 }
-
+const PlayerList = ({ season, addSeason }) => (
+    
+    <div>
+        <Header as='h2' color='red'>Players</Header>
+        <AddPlayerForm season={season} addSeason={addSeason} />
+        {season.Players!=null?
+        <List divided relaxed>
+            {Object.keys(season.Players).map(key =>
+                <List.Item key={key}>
+                    <List.Icon name='user' size='large' verticalAlign='middle' />
+                    <List.Content>
+                        <List.Header as={Link} to={`/players/${key}`}>{season.Players[key].Name.displayName}</List.Header>
+                        {/* <List.Description as='a'>{races[key].date} {races[key].time}</List.Description> */}
+                    </List.Content>
+                </List.Item>
+            )}
+        </List>
+        : null}
+    </div>
+);
 const RaceList = ({ season, races }) => (
     
     <div>

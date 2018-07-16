@@ -20,6 +20,18 @@ export const getSeasons = () =>
 export const getSeason = (year) => 
     db.ref(`seasons/${year}`).once('value');
 
+
+// PLAYERS
+export const newPlayerKey = (year) => db.ref().child(`seasons/${year}/Players`).push().key;
+
+export const doCreatePlayer = (key,year, Name, Driver1, Driver2, email ) =>
+    db.ref(`seasons/${year}/Players/${key}`).set({
+        Name,
+        Driver1,
+        Driver2,
+        email
+    });
+
 // RACES
 export const doCreateRace = (year, Circuit, date, raceName, round, time, season, url, QualifyingResults, Results, Points) =>
     db.ref(`seasons/${year}/races/${round}`).set({
