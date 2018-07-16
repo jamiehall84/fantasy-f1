@@ -20,6 +20,7 @@ import withAuthentication from './components/withAuthentication';
 import Navigation from './components/Navigation';
 import AdminPage from './components/Admin';
 import Race from './components/Race';
+import SeasonPage from './components/Season';
 
 
 class App extends React.Component {
@@ -68,6 +69,7 @@ class App extends React.Component {
                         <Route exact path={routes.ACCOUNT} component={() => <AccountPage />} />
                         <Route exact path={routes.PASSWORD_FORGET} component={() => <PasswordForgetPage />} />
                         <Route exact path={routes.ADMIN} component={() => <AdminPage />} />
+                        <Route exact path={routes.SEASON} component={() => <SeasonPage />} />
                         <Route exact path={routes.RACE} component={Race} />
                     </Sidebar.Pusher>
                 </Sidebar.Pushable>

@@ -9,7 +9,7 @@ import {
     Header,
     List,
     Button,
-  } from 'semantic-ui-react'
+  } from 'semantic-ui-react';
 
 const byPropKey = (propertyName, value) => () => ({
   [propertyName]: value,
@@ -106,7 +106,7 @@ class AdminPage extends Component {
                     <Container text style={{ marginTop: '7em' }}>
                         <Header as='h1'>Fanstasy F1 Admin</Header>
                         { !!seasons && <SeasonList seasons={seasons} /> }
-                        { !!races && <RaceList races={races} /> }
+                        {/* { !!races && <RaceList races={races} /> } */}
                         <p>
                             <Button onClick={() => this.getSeason()} >Get Season Data</Button>
                         </p>
@@ -125,7 +125,7 @@ const SeasonList = ({ seasons }) => (
                 <List.Item key={key}>
                     <List.Icon name='flag checkered' size='large' verticalAlign='middle' />
                     <List.Content>
-                        <List.Header as='a'>{seasons[key].year}</List.Header>
+                        <List.Header as={Link} to={`/season/${seasons[key].year}`} >{seasons[key].year}</List.Header>
                         <List.Description as='a'>...</List.Description>
                     </List.Content>
                 </List.Item>

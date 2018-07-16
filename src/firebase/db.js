@@ -17,6 +17,8 @@ export const doCreateSeason = (year) =>
     });
 export const getSeasons = () => 
     db.ref(`seasons`).once('value');
+export const getSeason = (year) => 
+    db.ref(`seasons/${year}`).once('value');
 
 // RACES
 export const doCreateRace = (year, Circuit, date, raceName, round, time, season, url, QualifyingResults, Results, Points) =>
