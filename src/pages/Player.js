@@ -24,25 +24,32 @@ class PlayerPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            season: null,
             player: null,
         };
     }
     componentWillMount(){
         const { match: { params } } = this.props;
 
-        db.doGetPlayer(params.year, params.player).then(player =>
-            this.setState(() => ({player: player.val() }))
+        db.getSeason(params.year).then(season =>
+            this.setState(() => ({
+                season: season.val(),
+                player: season.val().Players[params.player]
+             })
+            )
         );
     }
     setDriver = (event) => {
         const { match: { params } } = this.props;
-        const {player} = this.state;
+        const {season, player} = this.state;
+        const driver = season.Drivers[event.target.value];
         if(event.target.name==='Driver1'){
-            player.Driver1 = event.target.value;
+            player.Driver1 = driver;
         }else{
-            player.Driver2 = event.target.value;
+            player.Driver2 = driver;
         }
-        db.doUpdatePlayerDriver(params.year,params.player, event.target.name, event.target.value)
+        
+        db.doUpdatePlayerDriver(params.year,params.player, event.target.name, driver)
         .then(() => {
             this.setState(() => ({player: player}));
             console.log('Player Driver has been updated.');
@@ -55,7 +62,7 @@ class PlayerPage extends Component {
     
 
     render(){
-        const { player } = this.state;
+        const { season, player } = this.state;
         return(
           <AuthUserContext.Consumer>
                 {authUser => 
@@ -82,19 +89,28 @@ class PlayerPage extends Component {
                                         <Header as='h3' color='red'>Driver 1</Header>
                                         {player.Driver1==null?
                                         <form>
-                                            <select onChange={event => this.setDriver} name='Driver1'>
+                                            <select onChange={(event) => this.setDriver(event)} name='Driver1'>
                                                 <option>select driver</option>
+                                                {Object.keys(season.Drivers).map(key =>
+                                                    <option value={key} >{season.Drivers[key].givenName} {season.Drivers[key].familyName}</option>
+                                                )}
                                             </select>
                                         </form>
-                                        :null}
+                                        :
+                                        <p>{player.Driver1.givenName} {player.Driver1.familyName}</p>}
                                     </Grid.Column>
                                     <Grid.Column>
                                         <Header as='h3' color='red'>Driver 2</Header>
                                         {player.Driver2==null?
                                         <form>
-                                            <select><option>select driver</option></select>
+                                            <select onChange={(event) => this.setDriver(event)} name='Driver2'>
+                                                <option>select driver</option>
+                                                {Object.keys(season.Drivers).map(key =>
+                                                    <option value={key} >{season.Drivers[key].givenName} {season.Drivers[key].familyName}</option>
+                                                )}
+                                            </select>
                                         </form>
-                                        :null}
+                                        :<p>{player.Driver2.givenName} {player.Driver2.familyName}</p>}
                                     </Grid.Column>
                                     </Grid.Row>
                                 </Grid>

@@ -37,6 +37,11 @@ export const doGetPlayer = (year,player) =>
 export const doUpdatePlayerDriver = (year, playerNumber, driverNumber, driver) =>
     db.ref(`seasons/${year}/Players/${playerNumber}`).child(driverNumber).update(driver);
 
+export const doGetPlayerByDriver1Code = (year, driverCode) =>
+    db.ref(`seasons/${year}/Players`).orderByChild("Driver1/Code").equalTo(driverCode).limitToFirst(1).once('value');
+export const doGetPlayerByDriver2Code = (year, driverCode) =>
+    db.ref(`seasons/${year}/Players`).orderByChild("Driver2/Code").equalTo(driverCode).limitToFirst(1).once('value');
+
 // RACES
 export const doCreateRace = (year, Circuit, date, raceName, round, time, season, url, QualifyingResults, Results, Points) =>
     db.ref(`seasons/${year}/races/${round}`).set({
