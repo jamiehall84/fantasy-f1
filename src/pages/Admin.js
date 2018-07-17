@@ -94,6 +94,20 @@ class AdminPage extends Component {
             }
           });
       }
+      getDrivers = () => {
+        axios.get(`http://ergast.com/api/f1/2018/drivers.json`)
+          .then( res => {
+            const data = res.data.MRData.DriverTable.Drivers;
+            if(data[0]!=null){
+                db.doSetDrivers(2018, data)
+                .then(() => {
+                    console.log(`Drivers for this season have been added to the database.`);
+                }).catch(error => {
+                    console.log(error.message);
+                })
+            }
+          });
+      }
       render(){
           const { seasons } = this.state;
           return(
@@ -105,6 +119,7 @@ class AdminPage extends Component {
                         {/* { !!races && <RaceList races={races} /> } */}
                         <p>
                             <Button onClick={() => this.getSeason()} >Get Season Data</Button>
+                            <Button onClick={() => this.getDrivers()} color='red' >Get Season Drivers</Button>
                         </p>
                     </Container>
                 }
@@ -122,7 +137,9 @@ const SeasonList = ({ seasons }) => (
                     <List.Icon name='flag checkered' size='large' verticalAlign='middle' />
                     <List.Content>
                         <List.Header as={Link} to={`/season/${seasons[key].year}`} >{seasons[key].year}</List.Header>
-                        <List.Description as='a'>...</List.Description>
+                        <List.Description as='a'>
+                            
+                        </List.Description>
                     </List.Content>
                 </List.Item>
             )}

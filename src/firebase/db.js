@@ -34,6 +34,9 @@ export const doCreatePlayer = (key,year, Name, Driver1, Driver2, email ) =>
 export const doGetPlayer = (year,player) =>
     db.ref(`seasons/${year}/Players/${player}`).once('value');
 
+export const doUpdatePlayerDriver = (year, playerNumber, driverNumber, driver) =>
+    db.ref(`seasons/${year}/Players/${playerNumber}`).child(driverNumber).update(driver);
+
 // RACES
 export const doCreateRace = (year, Circuit, date, raceName, round, time, season, url, QualifyingResults, Results, Points) =>
     db.ref(`seasons/${year}/races/${round}`).set({
@@ -55,6 +58,10 @@ export const getRaces = (year) =>
 export const getRace = (year, raceNumber) =>
     db.ref(`seasons/${year}/races/${raceNumber}`).once('value');
 
+// DRIVERS
+export const doSetDrivers = (year, Drivers) =>
+    db.ref(`seasons/${year}/Drivers`)
+        .set(Drivers);
 
 // QUALIFYING
 export const doSetQualifying = (year, round, QualifyingResults) =>
