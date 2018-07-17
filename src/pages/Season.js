@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import AuthUserContext from './AuthUserContext';
+import AuthUserContext from '../components/AuthUserContext';
 import withAuthorization from '../components/withAuthorization';
 import { db } from '../firebase';
 import { Link, withRouter } from 'react-router-dom';
@@ -11,7 +11,7 @@ import {
     Dimmer,
     Loader
   } from 'semantic-ui-react'
-  import AddPlayerForm from './AddPlayerForm';
+  import PlayerList from '../components/PlayerList';
 
 class SeasonPage extends Component {
     constructor(props) {
@@ -29,7 +29,8 @@ class SeasonPage extends Component {
             this.setState(() => ({season: s.val() }))
         );
     }
-    addSeason = () => {
+    GetSeason = () => {
+        debugger;
         const { season } = this.state;
         debugger;
         db.getSeason(season.year).then(s =>
@@ -43,7 +44,8 @@ class SeasonPage extends Component {
             <AuthUserContext.Consumer>
                 {authUser => 
                     (season==null?
-                        <Segment>
+                        <Segment
+                        style={{ minHeight: '100vh' }}>
                             <Dimmer active inverted>
                                 <Loader size='large'>Loading Season</Loader>
                             </Dimmer>
@@ -52,7 +54,7 @@ class SeasonPage extends Component {
                 
                     <Container text style={{ marginTop: '7em' }}>
                         <Header as='h1' color='red'>{season.year}</Header>
-                        <PlayerList season={season} addSeason={this.addSeason} />
+                        <PlayerList season={season} addPlayer={this.GetSeason.bind(this)} />
                         { !!season.races && <RaceList races={season.races} season={season.year} /> }
                     </Container>
                     )
@@ -61,26 +63,26 @@ class SeasonPage extends Component {
           );
       }
 }
-const PlayerList = ({ season, addSeason }) => (
+// const PlayerList = ({ season, addSeason }) => (
     
-    <div>
-        <Header as='h2' color='red'>Players</Header>
-        <AddPlayerForm season={season} addSeason={addSeason} />
-        {season.Players!=null?
-        <List divided relaxed>
-            {Object.keys(season.Players).map(key =>
-                <List.Item key={key}>
-                    <List.Icon name='user' size='large' verticalAlign='middle' />
-                    <List.Content>
-                        <List.Header as={Link} to={`/players/${key}`}>{season.Players[key].Name.displayName}</List.Header>
-                        {/* <List.Description as='a'>{races[key].date} {races[key].time}</List.Description> */}
-                    </List.Content>
-                </List.Item>
-            )}
-        </List>
-        : null}
-    </div>
-);
+//     <div>
+//         <Header as='h2' color='red'>Players</Header>
+//         <AddPlayerForm season={season} addSeason={addSeason} />
+//         {season.Players!=null?
+//         <List divided relaxed>
+//             {Object.keys(season.Players).map(key =>
+//                 <List.Item key={key}>
+//                     <List.Icon name='user' size='large' verticalAlign='middle' />
+//                     <List.Content>
+//                         <List.Header as={Link} to={`/players/${key}`}>{season.Players[key].Name.displayName}</List.Header>
+//                         {/* <List.Description as='a'>{races[key].date} {races[key].time}</List.Description> */}
+//                     </List.Content>
+//                 </List.Item>
+//             )}
+//         </List>
+//         : null}
+//     </div>
+// );
 const RaceList = ({ season, races }) => (
     
     <div>

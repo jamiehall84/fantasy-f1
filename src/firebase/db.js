@@ -31,6 +31,8 @@ export const doCreatePlayer = (key,year, Name, Driver1, Driver2, email ) =>
         Driver2,
         email
     });
+export const doGetPlayer = (year,player) =>
+    db.ref(`seasons/${year}/Players/${player}`).once('value');
 
 // RACES
 export const doCreateRace = (year, Circuit, date, raceName, round, time, season, url, QualifyingResults, Results, Points) =>

@@ -7,3 +7,4 @@ export const PASSWORD_FORGET = '/pw-forget';
 export const ADMIN = '/admin';
 export const RACE = '/race/:year/:race';
 export const SEASON = '/season/:season';
+export const PLAYER = '/player/:year/:player';

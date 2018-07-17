@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import AuthUserContext from './AuthUserContext';
+import AuthUserContext from '../components/AuthUserContext';
 import withAuthorization from '../components/withAuthorization';
 import { db } from '../firebase';
 import { Link } from 'react-router-dom';
@@ -14,13 +14,6 @@ import {
     Icon
 } from 'semantic-ui-react';
 import Moment from 'react-moment';
-import axios from 'axios';
-// import QualifyingResults from './QualifyingResults';
-
-
-const byPropKey = (propertyName, value) => () => ({
-[propertyName]: value,
-});
 
 class Race extends Component {
     constructor(props) {
@@ -50,7 +43,7 @@ class Race extends Component {
                     {race!= null?
                         <div>
                             <Header as='h1' color='red'>{race.raceName}</Header>
-                            <Grid columns={3} divided>
+                            <Grid columns={3} divided stackable>
                                 <Grid.Row>
                                     <Grid.Column>
                                         <p><b>Country:</b> {race.Circuit.Location.country}</p>
@@ -112,7 +105,7 @@ const QualifyingResults = ({ results }) => (
             </Grid.Row>
             {Object.keys(results).map(key =>
             
-            <Grid.Row key={key} color={parseInt(key) % 2 == 0? 'grey' : null}>
+            <Grid.Row key={key} color={parseInt(key,10) % 2 === 0? 'grey' : null}>
                 <Responsive as={Grid.Column} mobile={1} tablet={1} computer={1}>{results[key].position}</Responsive>
                 <Responsive as={Grid.Column} mobile={5} tablet={5} computer={3}>{results[key].Driver.givenName} {results[key].Driver.familyName}</Responsive>
                 <Responsive as={Grid.Column} {...Responsive.onlyComputer} computer={3}>{results[key].Constructor.name}</Responsive>
@@ -148,7 +141,7 @@ const RaceResults = ({ results }) => (
                 </Responsive>
             </Grid.Row>
             {Object.keys(results).map(key =>
-            <Grid.Row key={key} color={parseInt(key) % 2 == 0? 'grey' : null} >
+            <Grid.Row key={key} color={parseInt(key, 10) % 2 === 0? 'grey' : null} >
                 <Responsive as={Grid.Column} mobile={2} tablet={2} computer={1}>{results[key].position}</Responsive>
                 <Responsive as={Grid.Column} mobile={4} tablet={4} computer={3}>{results[key].Driver.givenName} {results[key].Driver.familyName}</Responsive>
                 <Responsive as={Grid.Column} mobile={4} tablet={4} computer={3}>{results[key].Constructor.name}</Responsive>

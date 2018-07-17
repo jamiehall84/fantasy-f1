@@ -8,8 +8,6 @@ import {
 import { Link } from 'react-router-dom';
 import withAuthorization from '../components/withAuthorization';
 import AuthUserContext from '../components/AuthUserContext';
-import { db } from '../firebase';
-import * as routes from '../constants/routes';
 import axios from 'axios';
 
 const byPropKey = (propertyName, value) => () => ({
@@ -23,24 +21,8 @@ class HomeContainer extends Component {
           season: null,
         };
     }
-  ComponentWillMount() {
-    
-    // axios.get(`http://ergast.com/api/f1/2018`)
-    // .then( res => {
-    //   const season = res.MRData.RaceTable;
-    //   this.setState(byPropKey('season',season));
-    // })
-  }
 
   addUser = (user) => {
-    // const { history } = this.props;
-    //   db.doCreateUser(user.uid, user.displayName, user.email)
-    //   .then(() => {
-    //     history.push(routes.ACCOUNT);
-    //   })
-    //   .catch(error => {
-    //     console.log(error.message);
-    //   });
     console.log(`PROPS ARE ${this.props.history}`);
     this.props.history.push('/profile');
   }

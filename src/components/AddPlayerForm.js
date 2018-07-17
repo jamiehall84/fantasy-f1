@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import withAuthorization from '../components/withAuthorization';
-import { withRouter } from 'react-router-dom';
 import { db } from '../firebase';
 
 const INITIAL_STATE = {
@@ -9,6 +7,7 @@ const INITIAL_STATE = {
     displayName: '',
     Driver1: '',
     Driver2: '',
+    email: '',
     error: null,
   };
 
@@ -25,7 +24,6 @@ class AddPlayerForm extends Component {
   
   onSubmit = (event) => {
     event.preventDefault();
-    const { match: { params } } = this.props;
     const { season } = this.props;
     const {
         firstName,
@@ -121,4 +119,4 @@ class AddPlayerForm extends Component {
 }
 
 
-export default (withRouter(AddPlayerForm));
+export default AddPlayerForm;

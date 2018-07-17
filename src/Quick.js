@@ -18,9 +18,10 @@ import {
 import * as routes from './constants/routes';
 import withAuthentication from './components/withAuthentication';
 import Navigation from './components/Navigation';
-import AdminPage from './components/Admin';
-import Race from './components/Race';
-import SeasonPage from './components/Season';
+import AdminPage from './pages/Admin';
+import Race from './pages/Race';
+import SeasonPage from './pages/Season';
+import PlayerPage from './pages/Player';
 
 
 class App extends React.Component {
@@ -71,6 +72,7 @@ class App extends React.Component {
                         <Route exact path={routes.ADMIN} component={() => <AdminPage />} />
                         <Route exact path={routes.SEASON} component={() => <SeasonPage />} />
                         <Route exact path={routes.RACE} component={Race} />
+                        <Route exact path={routes.PLAYER} component={PlayerPage} />
                     </Sidebar.Pusher>
                 </Sidebar.Pushable>
                 
