@@ -33,7 +33,6 @@ class SeasonPage extends Component {
     }
     GetSeason = () => {
         const { season } = this.state;
-        debugger;
         db.getSeason(season.year).then(s =>
             this.setState(() => ({season: s.val() }))
         );
@@ -97,17 +96,17 @@ class SeasonPage extends Component {
       }
       findPlayerByDriverCode = (driverCode) => {
         const players = this.state.season.Players;
-        var player = players.find(this.findPlayerByDriver1, driverCode);
-        if(player === undefined){
-            player = players.find(this.findPlayerByDriver2, driverCode);
-        }
-        return player;
+        var result = players.filter(p => {
+            return p.Driver1.code === driverCode || p.Driver2.code === driverCode
+          });
+        
+        return result[0];
       }
       findPlayerByDriver1 = (player) => {
-        return player.Driver1.code == this ? player :'test';
+        // return player.Driver1.code == this ? player :'test';
       }
       findPlayerByDriver2 = (player) => {
-        return player.Driver2.code == this ? player :undefined;
+        //  return player.Driver2.code == this ? player :undefined;
     }
 
       calculatePoints = (grid, position) => {
