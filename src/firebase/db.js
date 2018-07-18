@@ -34,6 +34,9 @@ export const doCreatePlayer = (key,year, Name, Driver1, Driver2, email ) =>
 export const doGetPlayer = (year,player) =>
     db.ref(`seasons/${year}/Players/${player}`).once('value');
 
+export const doUpdatePlayer = (year, key, player) =>
+    db.ref(`seasons/${year}/Players/${key}`).update(player);
+
 export const doUpdatePlayerDriver = (year, playerNumber, driverNumber, driver) =>
     db.ref(`seasons/${year}/Players/${playerNumber}`).child(driverNumber).update(driver);
 

@@ -22,62 +22,21 @@ class Race extends Component {
         this.state = {
             race: null,
             points: null,
+            loading: true,
         };
     }
     componentWillMount(){
         const { match: { params } } = this.props;
-        db.getRace(params.year, params.race).then(race =>
+        db.getSeason(params.year).then(s =>
             this.setState(() => ({
-                race: race.val() ,
+                season: s.val(),
+                race: s.val().races[params.race],
+                loading: false,
             }))
         );
     }
-    processResults = () => {
-        const { race } = this.state;
-        var i = 0;
-        axios.get(`http://ergast.com/api/f1/2018/${race.round}/results.json`)
-          .then( res => {
-            const data = res.data.MRData.RaceTable;
-            if(data.Races[0]!=null){
-                var results = data.Races[0].Results;
-                for (let i = 0; i < results.length; i++) {
-                    console.log(results[i]);
-                    results[i].Player = db.doGetPlayerByDriver1Code(race.season, results[i].Driver.code);
-                    if(results[i].Player == null){
-                        results[i].Player = db.doGetPlayerByDriver2Code(race.season, results[i].Driver.code);
-                    }
-                    results[i].Points = this.calculatePoints(results[i].grid, results[i].position);
-                    
-                    console.log(results[i]);
-                }
-                
-                db.doSetResults(race.season, race.round, results)
-                    .then(() => {
-                        console.log(`Results for this race have been added to the database.`);
-                    }).catch(error => {
-                        console.log(error.message);
-                    })
-                
-            }
-          });
-        
-        
-    }
-    calculatePoints = (grid, position) => {
-        const result = position != 'R' ? (21 - position) : 0;
-        const difference = position != 'R' ? (grid - position) : (grid - 20);
-        const total = (result + difference);
-        const points = {
-            'result': result,
-            'difference': difference,
-            'total': total,
-        };
-        return points;
-    }
-    
-
     render(){
-        const { race } = this.state;
+        const { season, race } = this.state;
         return(
           <AuthUserContext.Consumer>
               {authUser => 
@@ -99,13 +58,12 @@ class Race extends Component {
                                     </Button>
                                     </Grid.Column>
                                 <Grid.Column>
-                                    <Button color='red' onClick={this.processResults.bind(this)}>Calculate Points</Button>
                                 </Grid.Column>
                                 <Grid.Column>
                                 </Grid.Column>
                                 </Grid.Row>
                             </Grid>
-                            <TabExampleSecondaryPointing race={race} />
+                            <TabExampleSecondaryPointing race={race} season={season} />
                         </div>
                     :
                         <div>
@@ -163,7 +121,7 @@ const RaceResults = ({ results }) => (
     <div>
         
         <Grid  divided='vertically'>
-            <Grid.Row>
+            <Grid.Row color='black'>
                 <Responsive as={Grid.Column} mobile={2} tablet={2} computer={1}>
                     #
                 </Responsive>
@@ -197,7 +155,7 @@ const RacePoints = ({ Results }) => (
     <div>
         
         <Grid  divided='vertically'>
-            <Grid.Row>
+            <Grid.Row color='black'>
                 <Responsive as={Grid.Column} mobile={4} tablet={4} computer={3}>
                     Driver
                 </Responsive>
@@ -215,10 +173,46 @@ const RacePoints = ({ Results }) => (
                 </Responsive>
             </Grid.Row>
             {Object.keys(Results).map(key =>
-            (Results[key] === null?
+            (Results[key] !== null?
             <Grid.Row key={key} color={parseInt(key, 10) % 2 === 0? 'grey' : null} >
                 <Responsive as={Grid.Column} mobile={4} tablet={4} computer={3}>{Results[key].Driver.code}</Responsive>
-                <Responsive as={Grid.Column} mobile={4} tablet={4} computer={3}>xxx</Responsive>
+                <Responsive as={Grid.Column} mobile={4} tablet={4} computer={3}>{Results[key].Player.Name.displayName}</Responsive>
+                <Responsive as={Grid.Column} mobile={3} tablet={3} computer={3}>{Results[key].Points.result}</Responsive>
+                <Responsive as={Grid.Column} mobile={3} tablet={3} omputer={3}>{Results[key].Points.difference}</Responsive>
+                <Responsive as={Grid.Column} mobile={2} tablet={2} omputer={1}>{Results[key].Points.total}</Responsive>
+            </Grid.Row>
+            : null)
+            )}
+        </Grid>
+    </div>
+);
+const PlayerPoints = ({ Players, Results }) => (
+    
+    <div>
+        
+        <Grid  divided='vertically'>
+            <Grid.Row color='black'>
+                <Responsive as={Grid.Column} mobile={4} tablet={4} computer={3}>
+                    Driver
+                </Responsive>
+                <Responsive as={Grid.Column} mobile={4} tablet={4} computer={3}>
+                    Player
+                </Responsive>
+                <Responsive as={Grid.Column} mobile={3} tablet={3} computer={3} >
+                    Result
+                </Responsive>
+                <Responsive as={Grid.Column} mobile={3} tablet={3} computer={3} >
+                    Difference
+                </Responsive>
+                <Responsive as={Grid.Column} mobile={2} tablet={2} computer={1}>
+                    Total
+                </Responsive>
+            </Grid.Row>
+            {Object.keys(Results).map(key =>
+            (Results[key] !== null?
+            <Grid.Row key={key} color={parseInt(key, 10) % 2 === 0? 'grey' : null} >
+                <Responsive as={Grid.Column} mobile={4} tablet={4} computer={3}>{Results[key].Driver.code}</Responsive>
+                <Responsive as={Grid.Column} mobile={4} tablet={4} computer={3}>{Results[key].Player.Name.displayName}</Responsive>
                 <Responsive as={Grid.Column} mobile={3} tablet={3} computer={3}>{Results[key].Points.result}</Responsive>
                 <Responsive as={Grid.Column} mobile={3} tablet={3} omputer={3}>{Results[key].Points.difference}</Responsive>
                 <Responsive as={Grid.Column} mobile={2} tablet={2} omputer={1}>{Results[key].Points.total}</Responsive>
@@ -231,7 +225,18 @@ const RacePoints = ({ Results }) => (
 
 const panes = [
     { 
-        menuItem: 'Points', 
+        menuItem: 'Points By Player', 
+        render: ({season, race}) => 
+        <Tab.Pane attached={false}>
+            <Header as='h2' color='red' style={{ marginBottom: '1em' }}>Race Points</Header>
+            {race.Results == null?
+            <p>The points have not yet been calculated for this race.
+            </p>
+            :<PlayerPoints Players={season.players} Results={race.Results} />}
+        </Tab.Pane>
+    },
+    { 
+        menuItem: 'Points by Driver', 
         render: ({race}) => 
         <Tab.Pane attached={false}>
             <Header as='h2' color='red' style={{ marginBottom: '1em' }}>Race Points</Header>
@@ -242,7 +247,7 @@ const panes = [
         </Tab.Pane>
     },
     { 
-        menuItem: 'Race', 
+        menuItem: 'Race Results', 
         render: ({race}) => 
             <Tab.Pane attached={false}>
                 <Header as='h2' color='red' style={{ marginBottom: '1em' }}>Race Results</Header>
@@ -252,7 +257,7 @@ const panes = [
                 }
             </Tab.Pane> },
     { 
-        menuItem: 'Qualifying', 
+        menuItem: 'Qualifying Results', 
         render: ({race}) => 
             <Tab.Pane attached={false}>
                 <Header as='h2' color='red' style={{ marginBottom: '1em' }}>Qualifying Results</Header>
@@ -262,8 +267,8 @@ const panes = [
     },
   ]
   
-  const TabExampleSecondaryPointing = ({race}) => (
-    <Tab menu={{ secondary: true, pointing: true }} panes={panes} race={race} />
+  const TabExampleSecondaryPointing = ({season, race}) => (
+    <Tab menu={{ secondary: true, pointing: true }} panes={panes} race={race} season={season} />
   )
 
 const authCondition = (authUser) => !! authUser;

@@ -34,7 +34,7 @@ class PlayerList extends Component {
                             <Card.Header>{season.Players[key].Name.displayName}</Card.Header>
                             <Card.Meta>{season.Players[key].email}</Card.Meta>
                             <Card.Description>
-                                Description goes here. Maybe points summary and driver info. 
+                                <b>Points:</b> {season.Players[key].total}
                             </Card.Description>
                         </Card.Content>
                         <Card.Content extra>
