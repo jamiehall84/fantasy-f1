@@ -28,7 +28,7 @@ class PlayerList extends Component {
             {season.Players!=null?
             <Card.Group stackable itemsPerRow={3}>
                 {Object.keys(season.Players).map(key =>
-                    <Card>
+                    <Card key={key}>
                         <Card.Content>
                             <Image floated='right' size='mini' src='/images/avatar/large/steve.jpg' />
                             <Card.Header>{season.Players[key].Name.displayName}</Card.Header>
