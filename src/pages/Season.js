@@ -53,6 +53,7 @@ class SeasonPage extends Component {
         // Go though each player and update their points
         for(let i=0; i < season.Players.length; i++){
             var player = season.Players[i];
+            var totalPoints = 0;
             if(player.Points === undefined){
                 player.Points = [];
                 player.total = 0;
@@ -96,10 +97,11 @@ class SeasonPage extends Component {
                         'Driver2': driver2,
                         'Total': total
                     }
-                    player.total = player.total + total.total;
+                    totalPoints = totalPoints + total.total;
                     
                 }
             }
+            player.total = totalPoints;
             db.doUpdatePlayer(season.year, i, player);
             console.log(player);
         }
@@ -125,7 +127,7 @@ class SeasonPage extends Component {
         .then( res => {
         const data = res.data.MRData.RaceTable;
         if(data.Races[0]!=null){
-            var results = this.processResults(data.Races[0].Results);
+            var results = this.processResults(data.Races[0], race.QualifyingResults);
             db.doSetResults(race.season, race.round, results)
             .then(() => {
                 console.log(`Results for this race have been added to the database.`);
@@ -136,14 +138,22 @@ class SeasonPage extends Component {
         });
     }
 
-    processResults = (results) => {
-
+    processResults = (race, QualifyingResults) => {
+        const results = race.Results
         for (let i = 0; i < results.length; i++) {
             const result = results[i];
-            result.Points = this.calculatePoints(result.grid, result.position);
+            
+            result.qualifyingPosition = this.getDriverQualifyingPosition(result.Driver.code, QualifyingResults);
+            result.Points = this.calculatePoints(result.qualifyingPosition, result.position, result.positionText);
             result.Player = this.findPlayerByDriverCode(result.Driver.code);
         }
         return results;
+    }
+    getDriverQualifyingPosition = (driverCode, qualifyingResults) => {
+        var result = qualifyingResults.filter(d => {
+            return d.Driver.code === driverCode
+            });
+        return result[0].position;
     }
     findPlayerByDriverCode = (driverCode) => {
     const players = this.state.season.Players;
@@ -153,9 +163,9 @@ class SeasonPage extends Component {
     return result[0];
     }
 
-    calculatePoints = (grid, position) => {
-        const result = position != 'R' ? (21 - parseInt(position, 10)) : 0;
-        const difference = position != 'R' ? (parseInt(grid,10) - parseInt(position,10)) : (parseInt(grid,10) - 20);
+    calculatePoints = (qualifyingPosition, position, positionText) => {
+        const result = positionText != 'R' ? (21 - parseInt(position, 10)) : 0;
+        const difference = positionText != 'R' ? (parseInt(qualifyingPosition,10) - parseInt(position,10)) : (parseInt(qualifyingPosition,10) - 20);
         const total = (result + difference);
         const points = {
             'result': result,

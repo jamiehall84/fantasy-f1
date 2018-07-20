@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import {
     Header,
-    Card,
-    Image,
-    Button,
+    Table,
+    Label,
   } from 'semantic-ui-react';
 import AddPlayerForm from './AddPlayerForm';
 
@@ -13,43 +12,62 @@ class PlayerList extends Component {
     super(props);
   }
   addPlayer = () => {
-      debugger;
     this.props.addPlayer();
   }
-  
+  sortPlayers = (a,b) => {
+    if (parseInt(a.total,10) < parseInt(b.total,10)){
+        return 1;
+    }
+    if (parseInt(a.total,10) > parseInt(b.total,10)){
+        return -1;
+    }
+    return 0;
+  }
   render() {
-      const {season} = this.props;
+      const {season, currentUser} = this.props;
     return (
         <div>
             <Header as='h2' color='red'>Players</Header>
-            {season.Players.length < 10?
+            {season.Players==null||season.Players.length < 10?
             <AddPlayerForm season={season} addPlayer={this.addPlayer.bind(this)} />
             : null }
             {season.Players!=null?
-            <Card.Group stackable itemsPerRow={3}>
-                {Object.keys(season.Players).map(key =>
-                    <Card key={key}>
-                        <Card.Content>
-                            <Image floated='right' size='mini' src='/images/avatar/large/steve.jpg' />
-                            <Card.Header>{season.Players[key].Name.displayName}</Card.Header>
-                            <Card.Meta>{season.Players[key].email}</Card.Meta>
-                            <Card.Description>
-                                <b>Points:</b> {season.Players[key].total}
-                            </Card.Description>
-                        </Card.Content>
-                        <Card.Content extra>
-                            <div className='ui two buttons'>
-                            <Button basic color='red' as={Link} to={`/player/${season.year}/${key}`}>
-                                View
-                            </Button>
-                            {/* <Button basic color='red'>
-                                Decline
-                            </Button> */}
-                            </div>
-                        </Card.Content>
-                    </Card>
-                )}
-            </Card.Group>
+            <Table celled unstackable striped selectable>
+                <Table.Header>
+                <Table.Row>
+                    <Table.HeaderCell>Pos</Table.HeaderCell>
+                    <Table.HeaderCell>Player</Table.HeaderCell>
+                    <Table.HeaderCell>Driver 1</Table.HeaderCell>
+                    <Table.HeaderCell>Driver 2</Table.HeaderCell>
+                    <Table.HeaderCell>Pts</Table.HeaderCell>
+                </Table.Row>
+                </Table.Header>
+            
+                <Table.Body>
+                {Object.keys(season.Players.sort(this.sortPlayers)).map(key =>
+                    <Table.Row key={key}>
+                        <Table.Cell>
+                            {parseInt(key,10) === 0 ?
+                                <Label ribbon color='yellow'>{parseInt(key,10)+1}</Label>
+                            : 
+                                parseInt(key,10)+1
+                            }
+                        </Table.Cell>
+                        <Table.Cell >
+                            {/* <Link to={`/player/${season.year}/${key}`}>{season.Players[key].Name.displayName}</Link> */}
+                            {season.Players[key].Name.displayName}
+                        </Table.Cell>
+                        <Table.Cell>
+                            {season.Players[key].Driver1.code}
+                        </Table.Cell>
+                        <Table.Cell>
+                            {season.Players[key].Driver2.code}
+                        </Table.Cell>
+                        <Table.Cell>{season.Players[key].total}</Table.Cell>
+                    </Table.Row>
+                    )}
+                </Table.Body>
+            </Table>
             : null}
         </div>
     );

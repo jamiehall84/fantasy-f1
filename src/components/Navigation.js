@@ -8,7 +8,7 @@ import {
   import AuthUserContext from './AuthUserContext';
   import * as routes from '../constants/routes';
 
-const Navigation = () =>
+const Navigation = (onClick) =>
 <AuthUserContext.Consumer>
     { authUser => authUser
         ? <NavigationAuth />
@@ -18,7 +18,7 @@ const Navigation = () =>
 
 const NavigationAuth = () =>
   <div>
-      <Menu.Item as={Link} to={routes.HOME}>
+      <Menu.Item as={Link} to={routes.HOME} >
           <Icon name='home' />
           Home
       </Menu.Item>
@@ -35,6 +35,10 @@ const NavigationAuth = () =>
 
 const NavigationNonAuth = () =>
   <div>
+      <Menu.Item as={Link} to={routes.LANDING}>
+            <Icon name='home' />
+            Home
+        </Menu.Item>
       <Menu.Item as={Link} to={routes.SIGN_IN} >
             <Icon name='log out' />
             Log in
