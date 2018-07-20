@@ -16,7 +16,6 @@ import {
     Label,
 } from 'semantic-ui-react';
 import Moment from 'react-moment';
-import axios from 'axios';
 
 class Race extends Component {
     constructor(props) {
@@ -191,7 +190,7 @@ const RacePoints = ({ Results }) => (
 const PlayerPoints = ({ Players, Round, Season }) => (
     
     <div>
-        <Table celled>
+        <Table celled unstackable striped selectable >
                 <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell>Pos</Table.HeaderCell>
@@ -201,10 +200,14 @@ const PlayerPoints = ({ Players, Round, Season }) => (
                 </Table.Header>
             
                 <Table.Body>
-                {Object.keys(Players).map(key =>
+                {Object.keys(Players.sort(sortPlayers)).map(key =>
                     <Table.Row key={key}>
                         <Table.Cell>
-                        <Label ribbon>{parseInt(key,10)+1}</Label>
+                            {parseInt(key,10) === 0 ?
+                                <Label ribbon color='yellow'>{parseInt(key,10)+1}</Label>
+                            : 
+                                parseInt(key,10)+1
+                            }
                         </Table.Cell>
                         <Table.Cell>
                             <Link to={`/player/${Season}/${key}`}>{Players[key].Name.displayName}</Link>
@@ -216,7 +219,15 @@ const PlayerPoints = ({ Players, Round, Season }) => (
             </Table>
     </div>
 );
-
+const sortPlayers = (a,b) => {
+    if (parseInt(a.total,10) < parseInt(b.total,10)){
+        return 1;
+    }
+    if (parseInt(a.total,10) > parseInt(b.total,10)){
+        return -1;
+    }
+    return 0;
+  }
 const panes = [
     { 
         menuItem: 'Points By Player', 

@@ -164,8 +164,8 @@ class SeasonPage extends Component {
     }
 
     calculatePoints = (qualifyingPosition, position, positionText) => {
-        const result = positionText != 'R' ? (21 - parseInt(position, 10)) : 0;
-        const difference = positionText != 'R' ? (parseInt(qualifyingPosition,10) - parseInt(position,10)) : (parseInt(qualifyingPosition,10) - 20);
+        const result = positionText !== 'R' ? (21 - parseInt(position, 10)) : 0;
+        const difference = positionText !== 'R' ? (parseInt(qualifyingPosition,10) - parseInt(position,10)) : (parseInt(qualifyingPosition,10) - 20);
         const total = (result + difference);
         const points = {
             'result': result,

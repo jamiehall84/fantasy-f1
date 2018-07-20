@@ -4,7 +4,7 @@ import {
   Route
 } from 'react-router-dom';
 import Login from './login'
-import HomeContainer from './home'
+import Dashboard from './pages/dashboard'
 import AccountPage from './components/Account';
 import PasswordForgetPage from './components/PasswordForget';
 import {
@@ -68,7 +68,7 @@ class App extends React.Component {
                         </Menu>
                         <Route exact path={routes.LANDING} component={()=> <LandingPage />} />
                         <Route exact path={routes.SIGN_IN} component={()=> <Login />} />
-                        <Route exact path={routes.HOME} component={()=><HomeContainer />} />
+                        <Route exact path={routes.HOME} component={()=><Dashboard />} />
                         <Route exact path={routes.ACCOUNT} component={() => <AccountPage />} />
                         <Route exact path={routes.PASSWORD_FORGET} component={() => <PasswordForgetPage />} />
                         <Route exact path={routes.ADMIN} component={() => <AdminPage />} />
