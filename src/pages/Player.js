@@ -61,7 +61,24 @@ class PlayerPage extends Component {
       });
       
     }
-    
+    driver1Points = () => {
+        const {player} = this.props;
+        var total = 0
+        for (let index = 1; index < player.Points.length; index++) {
+            const result = player.Points[index];
+            total = total + parseInt(result.Driver1.total, 10);
+        }
+        return total
+    }
+    driver2Points = () => {
+        const {player} = this.props;
+        var total = 0
+        for (let index = 1; index < player.Points.length; index++) {
+            const result = player.Points[index];
+            total = total + parseInt(result.Driver2.total, 10);
+        }
+        return total
+    }
 
     render(){
         const { season, player } = this.props;
@@ -74,12 +91,11 @@ class PlayerPage extends Component {
             >
                 <Header icon='user' content={`${player.Name.firstName} ${player.Name.familyName}`} />
                 <Modal.Content>
-                    <Header as='h1' color='red'></Header>
-                    <Header as='h2' color='black'>{player.total} Points</Header>
+                    <Header as='h1' color='green'>{player.total} Points</Header>
                     <Grid columns={3} divided stackable>
                         <Grid.Row>
                             <Grid.Column>
-                                <Header as='h3' color='red'>Driver 1</Header>
+                                <Header as='h3' color='green'>Driver 1</Header>
                                 {player.Driver1.code==null?
                                 <form>
                                     <select onChange={(event) => this.setDriver(event)} name='Driver1'>
@@ -90,10 +106,10 @@ class PlayerPage extends Component {
                                     </select>
                                 </form>
                                 :
-                                <p>{player.Driver1.givenName} {player.Driver1.familyName}</p>}
+                                <p>{player.Driver1.givenName} {player.Driver1.familyName}: {`${this.driver1Points()} points`}</p>}
                             </Grid.Column>
                             <Grid.Column>
-                                <Header as='h3' color='red'>Driver 2</Header>
+                                <Header as='h3' color='green'>Driver 2</Header>
                                 {player.Driver2.code==null?
                                 <form>
                                     <select onChange={(event) => this.setDriver(event)} name='Driver2'>
@@ -103,8 +119,11 @@ class PlayerPage extends Component {
                                         )}
                                     </select>
                                 </form>
-                                :<p>{player.Driver2.givenName} {player.Driver2.familyName}</p>}
+                                :<p>{player.Driver2.givenName} {player.Driver2.familyName}: {`${this.driver2Points()} points`}</p>}
                             </Grid.Column>
+                                <Grid.Column>
+                                
+                                </Grid.Column>
                         </Grid.Row>
                     </Grid>
                     <RacePoints Points={player.Points} />

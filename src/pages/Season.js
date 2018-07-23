@@ -10,7 +10,8 @@ import {
     Segment,
     Dimmer,
     Loader,
-    Button
+    Button,
+    Icon,
   } from 'semantic-ui-react'
   import PlayerList from '../components/PlayerList';
   import PlayerPage from './Player';
@@ -58,15 +59,21 @@ class SeasonPage extends Component {
                 (season==null?
                     <Segment
                     style={{ minHeight: '100vh' }}>
-                        <Dimmer active inverted>
-                            <Loader size='large'>Loading Season</Loader>
+                        <Dimmer active>
+                            <Loader size='large' color='green'>Loading Season</Loader>
                         </Dimmer>
                     </Segment>
                 :
                     <div>
                         <Container text style={{ marginTop: '7em' }}>
-                            <Header as='h1' color='red'>{season.year}</Header>
-                            <Button onClick={this.props.updateSeason} color='red'>Update season</Button>
+                            <Button 
+                            onClick={this.props.updateSeason} 
+                            color='green'
+                            icon
+                            >
+                                <Icon name='sync alternate' />
+                                Update season
+                            </Button>
                             <PlayerList season={season} addPlayer={this.GetSeason.bind(this)} viewPlayer={this.viewPlayer.bind(this)} />
                             { !!season.races && <RaceList races={season.races} season={season.year} /> }
                         </Container>

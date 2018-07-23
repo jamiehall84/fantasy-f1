@@ -47,7 +47,7 @@ closePlayer = () => {
                     <Container style={{ marginTop: '7em' }}>
                         <PlayerList season={season} viewPlayer={this.viewPlayer.bind(this)} />
                     </Container>
-                    {showPlayer && <PlayerPage season={season} player={player} close={this.closePlayer.bind(this)} />}
+                    {showPlayer && <PlayerPage season={season} player={player} close={this.closePlayer.bind(this)} open={showPlayer} />}
                 </div>
             )
         );

@@ -27,12 +27,12 @@ class PlayerList extends Component {
       const {season, currentUser} = this.props;
     return (
         <div>
-            <Header as='h2' color='red'>Players</Header>
+            <Header as='h1' color='green'>{season.year} League Standings</Header>
             {season.Players==null||season.Players.length < 10?
             <AddPlayerForm season={season} addPlayer={this.addPlayer.bind(this)} />
             : null }
             {season.Players!=null?
-            <Table celled unstackable striped selectable>
+            <Table celled unstackable striped selectable inverted>
                 <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell>Pos</Table.HeaderCell>
@@ -48,7 +48,7 @@ class PlayerList extends Component {
                     <Table.Row key={key}  onClick={(player)=> this.props.viewPlayer(season.Players[key])}>
                         <Table.Cell>
                             {parseInt(key,10) === 0 ?
-                                <Label ribbon color='yellow'>{parseInt(key,10)+1}</Label>
+                                <Label ribbon color='green'>{parseInt(key,10)+1}</Label>
                             : 
                                 parseInt(key,10)+1
                             }
