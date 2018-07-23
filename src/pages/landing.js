@@ -3,9 +3,12 @@ import { withRouter } from 'react-router-dom';
 import { db } from '../firebase';
 import { Container, Segment, Dimmer, Loader} from 'semantic-ui-react';
 import PlayerList from '../components/PlayerList'
+import PlayerPage from '../pages/Player'
 
 const INITIAL_STATE = {
-  season: null,
+    season: null,
+    player: null,
+    showPlayer: false,
 };
 
 class LandingPage extends Component {
@@ -15,15 +18,23 @@ class LandingPage extends Component {
       ...INITIAL_STATE
     };
   }
-    componentDidMount(){
-        const season = (new Date()).getFullYear();
-        db.getSeason(season).then(s =>
-            this.setState(() => ({season: s.val() }))
-        );
-    }
+  viewPlayer = (player) => {
+    this.setState(() => ({
+        player: player,
+        showPlayer: true,
+     }))
+}
+closePlayer = () => {
+    this.setState(() => ({
+        player: null,
+        showPlayer: false,
+     }))
+}
+
 
     render() {
-        const { season } = this.state;
+        const { season } = this.props;
+        const { showPlayer, player } = this.state;
         return(
             ( season==null ?
                 <Segment style={{ minHeight: '100vh' }}>
@@ -32,9 +43,12 @@ class LandingPage extends Component {
                     </Dimmer>
                 </Segment>
             :
-                <Container style={{ marginTop: '7em' }}>
-                    <PlayerList season={season} />
-                </Container>
+                <div>
+                    <Container style={{ marginTop: '7em' }}>
+                        <PlayerList season={season} viewPlayer={this.viewPlayer.bind(this)} />
+                    </Container>
+                    {showPlayer && <PlayerPage season={season} player={player} close={this.closePlayer.bind(this)} />}
+                </div>
             )
         );
     }

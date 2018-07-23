@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import AuthUserContext from '../components/AuthUserContext';
 import withAuthorization from '../components/withAuthorization';
-import axios from 'axios';
 import { db } from '../firebase';
 import { Link, withRouter } from 'react-router-dom';
 import {
@@ -14,13 +13,16 @@ import {
     Button
   } from 'semantic-ui-react'
   import PlayerList from '../components/PlayerList';
+  import PlayerPage from './Player';
 
 class SeasonPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
           season: null,
-          races: null
+          races: null,
+          player: null,
+          showPlayer: false,
         };
     }
     componentWillMount(){
@@ -34,10 +36,22 @@ class SeasonPage extends Component {
         );
     }
 
-    
+    viewPlayer = (player) => {
+        this.setState(() => ({
+            player: player,
+            showPlayer: true,
+         }))
+    }
+    closePlayer = () => {
+        this.setState(() => ({
+            player: null,
+            showPlayer: false,
+         }))
+    }
 
     render(){
         const { season } = this.props;
+        const {showPlayer, player} = this.state;
         return(
         <AuthUserContext.Consumer>
             {authUser => 
@@ -49,12 +63,15 @@ class SeasonPage extends Component {
                         </Dimmer>
                     </Segment>
                 :
-                    <Container text style={{ marginTop: '7em' }}>
-                        <Header as='h1' color='red'>{season.year}</Header>
-                        <Button onClick={this.props.updateSeason} color='red'>Update season</Button>
-                        <PlayerList season={season} addPlayer={this.GetSeason.bind(this)} />
-                        { !!season.races && <RaceList races={season.races} season={season.year} /> }
-                    </Container>
+                    <div>
+                        <Container text style={{ marginTop: '7em' }}>
+                            <Header as='h1' color='red'>{season.year}</Header>
+                            <Button onClick={this.props.updateSeason} color='red'>Update season</Button>
+                            <PlayerList season={season} addPlayer={this.GetSeason.bind(this)} viewPlayer={this.viewPlayer.bind(this)} />
+                            { !!season.races && <RaceList races={season.races} season={season.year} /> }
+                        </Container>
+                        {showPlayer && <PlayerPage season={season} player={player} close={this.closePlayer.bind(this)} />}
+                    </div>
                 )
             }
         </AuthUserContext.Consumer>

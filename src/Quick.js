@@ -6,7 +6,6 @@ import {
 import { db } from './firebase';
 import axios from 'axios';
 import Login from './login'
-import Dashboard from './pages/dashboard'
 import AccountPage from './components/Account';
 import PasswordForgetPage from './components/PasswordForget';
 import {
@@ -203,7 +202,7 @@ class App extends React.Component {
         return (
         <Router>
             <div>                
-                <Sidebar.Pushable as={Segment}>
+                <Sidebar.Pushable as={Segment} style={{ transform: 'none' }}>
                     <Sidebar
                         as={Menu}
                         animation='overlay'
@@ -240,9 +239,9 @@ class App extends React.Component {
                             </Segment>
                         :
                         <div>
-                            <Route exact path={routes.LANDING} component={()=> <LandingPage />} />
+                            <Route exact path={routes.LANDING} component={()=> <LandingPage season={season}/>} />
                             <Route exact path={routes.SIGN_IN} component={()=> <Login />} />
-                            <Route exact path={routes.HOME} component={()=><Dashboard />} />
+                            <Route exact path={routes.HOME} component={()=> <SeasonPage season={season} updateSeason={this.updateSeason.bind(this)} />} />
                             <Route exact path={routes.ACCOUNT} component={() => <AccountPage />} />
                             <Route exact path={routes.PASSWORD_FORGET} component={() => <PasswordForgetPage />} />
                             <Route exact path={routes.ADMIN} component={() => <AdminPage />} />

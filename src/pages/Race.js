@@ -78,113 +78,108 @@ class Race extends Component {
     }
 }
 
-const QualifyingResults = ({ results }) => (
+const QualifyingResults = ({ Results }) => (
     
     <div>
-        <Grid divided='vertically'>
-            <Grid.Row color='black'>
-                <Responsive as={Grid.Column} mobile={1} tablet={1} computer={1}>
-                    #
-                </Responsive>
-                <Responsive as={Grid.Column} mobile={5} tablet={5} computer={3}>
-                    
-                </Responsive>
-                <Responsive as={Grid.Column} {...Responsive.onlyComputer} computer={3}>
-                    
-                </Responsive>
-                <Responsive as={Grid.Column} mobile={3} tablet={2} computer={2}>
-                    Q1
-                </Responsive>
-                <Responsive as={Grid.Column} mobile={3} tablet={2} computer={2}>
-                    Q2
-                </Responsive>
-                <Responsive as={Grid.Column} mobile={3} tablet={2} computer={2}>
-                    Q3
-                </Responsive>
-            </Grid.Row>
-            {Object.keys(results).map(key =>
-            
-            <Grid.Row key={key} color={parseInt(key,10) % 2 === 0? 'grey' : null}>
-                <Responsive as={Grid.Column} mobile={1} tablet={1} computer={1}>{results[key].position}</Responsive>
-                <Responsive as={Grid.Column} mobile={5} tablet={5} computer={3}>{results[key].Driver.givenName} {results[key].Driver.familyName}</Responsive>
-                <Responsive as={Grid.Column} {...Responsive.onlyComputer} computer={3}>{results[key].Constructor.name}</Responsive>
-                <Responsive as={Grid.Column}  mobile={3} tablet={3} computer={2}>{results[key].Q1}</Responsive>
-                <Responsive as={Grid.Column}  mobile={3} tablet={3} computer={2}>{results[key].Q2}</Responsive>
-                <Responsive as={Grid.Column}  mobile={3} tablet={3} computer={2}>{results[key].Q3}</Responsive>
-            </Grid.Row>
+        <Table celled unstackable striped selectable >
+            <Table.Header>
+                <Table.Row>
+                    <Table.HeaderCell>Pos</Table.HeaderCell>
+                    <Table.HeaderCell>Driver</Table.HeaderCell>
+                    <Table.HeaderCell>Constructor</Table.HeaderCell>
+                    <Table.HeaderCell>Q1</Table.HeaderCell>
+                    <Table.HeaderCell>Q2</Table.HeaderCell>
+                    <Table.HeaderCell>Q3</Table.HeaderCell>
+                </Table.Row>
+            </Table.Header>
+            <Table.Body>
+            {Object.keys(Results).map(key =>
+                <Table.Row key={key}>
+                    <Table.Cell>
+                        {parseInt(key,10) === 0 ?
+                            <Label ribbon color='yellow'>{Results[key].position}</Label>
+                        : 
+                        Results[key].position
+                        }
+                    </Table.Cell>
+                    <Table.Cell>{Results[key].Driver.givenName} {Results[key].Driver.familyName}</Table.Cell>
+                    <Table.Cell>{Results[key].Constructor.name}</Table.Cell>
+                    <Table.Cell>{Results[key].Q1}</Table.Cell>
+                    <Table.Cell>{Results[key].Q2}</Table.Cell>
+                    <Table.Cell>{Results[key].Q3}</Table.Cell>
+                </Table.Row>
             )}
-        </Grid>
+            </Table.Body>
+        </Table>
     </div>
 );
 
-const RaceResults = ({ results }) => (
+const RaceResults = ({ Results }) => (
     
     <div>
-        
-        <Grid  divided='vertically'>
-            <Grid.Row color='black'>
-                <Responsive as={Grid.Column} mobile={2} tablet={2} computer={1}>
-                    #
-                </Responsive>
-                <Responsive as={Grid.Column} mobile={4} tablet={4} computer={3}>
-                    Driver
-                </Responsive>
-                <Responsive as={Grid.Column} mobile={4} tablet={4} computer={3}>
-                    Constructor
-                </Responsive>
-                <Responsive as={Grid.Column} mobile={3} tablet={3} computer={3} >
-                    Grid
-                </Responsive>
-                <Responsive as={Grid.Column} mobile={3} tablet={3} computer={3} >
-                    Status
-                </Responsive>
-            </Grid.Row>
-            {Object.keys(results).map(key =>
-            <Grid.Row key={key} color={parseInt(key, 10) % 2 === 0? 'grey' : null} >
-                <Responsive as={Grid.Column} mobile={2} tablet={2} computer={1}>{results[key].position}</Responsive>
-                <Responsive as={Grid.Column} mobile={4} tablet={4} computer={3}>{results[key].Driver.givenName} {results[key].Driver.familyName}</Responsive>
-                <Responsive as={Grid.Column} mobile={4} tablet={4} computer={3}>{results[key].Constructor.name}</Responsive>
-                <Responsive as={Grid.Column} mobile={3} tablet={3} >{results[key].grid}</Responsive>
-                <Responsive as={Grid.Column} mobile={3} tablet={3} >{results[key].status}</Responsive>
-            </Grid.Row>
+        <Table celled unstackable striped selectable >
+            <Table.Header>
+                <Table.Row>
+                    <Table.HeaderCell>Pos</Table.HeaderCell>
+                    <Table.HeaderCell>Driver</Table.HeaderCell>
+                    <Table.HeaderCell>Constructor</Table.HeaderCell>
+                    <Table.HeaderCell>Grid</Table.HeaderCell>
+                    <Table.HeaderCell>Status</Table.HeaderCell>
+                </Table.Row>
+            </Table.Header>
+            <Table.Body>
+            {Object.keys(Results).map(key =>
+                <Table.Row key={key}>
+                    <Table.Cell>
+                        {parseInt(key,10) === 0 ?
+                            <Label ribbon color='yellow'>{Results[key].position}</Label>
+                        : 
+                        Results[key].position
+                        }
+                    </Table.Cell>
+                    <Table.Cell>{Results[key].Driver.givenName} {Results[key].Driver.familyName}</Table.Cell>
+                    <Table.Cell>{Results[key].Constructor.name}</Table.Cell>
+                    <Table.Cell>{Results[key].grid}</Table.Cell>
+                    <Table.Cell>{Results[key].status}</Table.Cell>
+                </Table.Row>
             )}
-        </Grid>
+            </Table.Body>
+        </Table>
     </div>
 );
 const RacePoints = ({ Results }) => (
     
     <div>
-        
-        <Grid  divided='vertically'>
-            <Grid.Row color='black'>
-                <Responsive as={Grid.Column} mobile={4} tablet={4} computer={3}>
-                    Driver
-                </Responsive>
-                <Responsive as={Grid.Column} mobile={4} tablet={4} computer={3}>
-                    Player
-                </Responsive>
-                <Responsive as={Grid.Column} mobile={3} tablet={3} computer={3} >
-                    Result
-                </Responsive>
-                <Responsive as={Grid.Column} mobile={3} tablet={3} computer={3} >
-                    Difference
-                </Responsive>
-                <Responsive as={Grid.Column} mobile={2} tablet={2} computer={1}>
-                    Total
-                </Responsive>
-            </Grid.Row>
-            {Object.keys(Results).map(key =>
-            (Results[key] !== null?
-            <Grid.Row key={key} color={parseInt(key, 10) % 2 === 0? 'grey' : null} >
-                <Responsive as={Grid.Column} mobile={4} tablet={4} computer={3}>{Results[key].Driver.code}</Responsive>
-                <Responsive as={Grid.Column} mobile={4} tablet={4} computer={3}>{Results[key].Player.Name.displayName}</Responsive>
-                <Responsive as={Grid.Column} mobile={3} tablet={3} computer={3}>{Results[key].Points.result}</Responsive>
-                <Responsive as={Grid.Column} mobile={3} tablet={3} omputer={3}>{Results[key].Points.difference}</Responsive>
-                <Responsive as={Grid.Column} mobile={2} tablet={2} omputer={1}>{Results[key].Points.total}</Responsive>
-            </Grid.Row>
-            : null)
-            )}
-        </Grid>
+        <Table celled unstackable striped selectable >
+            <Table.Header>
+                <Table.Row>
+                    <Table.HeaderCell>Pos</Table.HeaderCell>
+                    <Table.HeaderCell>Driver</Table.HeaderCell>
+                    <Table.HeaderCell>Player</Table.HeaderCell>
+                    <Table.HeaderCell>Result</Table.HeaderCell>
+                    <Table.HeaderCell>+/-</Table.HeaderCell>
+                    <Table.HeaderCell>Total</Table.HeaderCell>
+                </Table.Row>
+            </Table.Header>
+            <Table.Body>
+            {Object.keys(Results.sort(sortDriverPoints)).map(key =>
+                <Table.Row key={key}>
+                    <Table.Cell>
+                        {parseInt(key,10) === 0 ?
+                            <Label ribbon color='yellow'>{parseInt(key,10)+1}</Label>
+                        : 
+                            parseInt(key,10)+1
+                        }
+                    </Table.Cell>
+                    <Table.Cell>{Results[key].Driver.code}</Table.Cell>
+                    <Table.Cell>{Results[key].Player.Name.displayName}</Table.Cell>
+                    <Table.Cell>{Results[key].Points.result}</Table.Cell>
+                    <Table.Cell>{Results[key].Points.difference}</Table.Cell>
+                    <Table.Cell>{Results[key].Points.total}</Table.Cell>
+                </Table.Row>
+                )}
+            </Table.Body>
+        </Table>
     </div>
 );
 const PlayerPoints = ({ Players, Round, Season }) => (
@@ -228,6 +223,15 @@ const sortPlayers = (a,b) => {
     }
     return 0;
   }
+  const sortDriverPoints = (a,b) => {
+    if (parseInt(a.Points.total,10) < parseInt(b.Points.total,10)){
+        return 1;
+    }
+    if (parseInt(a.Points.total,10) > parseInt(b.Points.total,10)){
+        return -1;
+    }
+    return 0;
+  }
 const panes = [
     { 
         menuItem: 'Points By Player', 
@@ -258,7 +262,7 @@ const panes = [
                 <Header as='h2' color='red' style={{ marginBottom: '1em' }}>Race Results</Header>
                 {race.QualifyingResults == null?
                 <p>There are no results for this race yet.</p>
-                :<RaceResults results={race.Results} />
+                :<RaceResults Results={race.Results} />
                 }
             </Tab.Pane> },
     { 
@@ -268,7 +272,7 @@ const panes = [
                 <Header as='h2' color='red' style={{ marginBottom: '1em' }}>Qualifying Results</Header>
                 {race.QualifyingResults == null?
                     <p>There are no results for this race yet.</p>
-                : <QualifyingResults results={race.QualifyingResults} />}</Tab.Pane> 
+                : <QualifyingResults Results={race.QualifyingResults} />}</Tab.Pane> 
     },
   ]
   

@@ -45,7 +45,7 @@ class PlayerList extends Component {
             
                 <Table.Body>
                 {Object.keys(season.Players.sort(this.sortPlayers)).map(key =>
-                    <Table.Row key={key}>
+                    <Table.Row key={key}  onClick={(player)=> this.props.viewPlayer(season.Players[key])}>
                         <Table.Cell>
                             {parseInt(key,10) === 0 ?
                                 <Label ribbon color='yellow'>{parseInt(key,10)+1}</Label>
@@ -53,7 +53,7 @@ class PlayerList extends Component {
                                 parseInt(key,10)+1
                             }
                         </Table.Cell>
-                        <Table.Cell >
+                        <Table.Cell>
                             {/* <Link to={`/player/${season.year}/${key}`}>{season.Players[key].Name.displayName}</Link> */}
                             {season.Players[key].Name.displayName}
                         </Table.Cell>
