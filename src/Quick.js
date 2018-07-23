@@ -4,7 +4,7 @@ import {
   Route
 } from 'react-router-dom';
 import Login from './login'
-import HomeContainer from './home'
+import Dashboard from './pages/dashboard'
 import AccountPage from './components/Account';
 import PasswordForgetPage from './components/PasswordForget';
 import {
@@ -22,6 +22,7 @@ import AdminPage from './pages/Admin';
 import Race from './pages/Race';
 import SeasonPage from './pages/Season';
 import PlayerPage from './pages/Player';
+import LandingPage from './pages/landing';
 
 
 class App extends React.Component {
@@ -48,7 +49,7 @@ class App extends React.Component {
                         visible={visible}
                         width='thin'
                     >
-                    <Navigation />
+                    <Navigation onClick={this.handleSidebarHide.bind(this)} />
                     </Sidebar>
 
                     <Sidebar.Pusher 
@@ -65,8 +66,9 @@ class App extends React.Component {
                                 </Menu.Item>
                             </Container>
                         </Menu>
+                        <Route exact path={routes.LANDING} component={()=> <LandingPage />} />
                         <Route exact path={routes.SIGN_IN} component={()=> <Login />} />
-                        <Route exact path={routes.HOME} component={()=><HomeContainer />} />
+                        <Route exact path={routes.HOME} component={()=><Dashboard />} />
                         <Route exact path={routes.ACCOUNT} component={() => <AccountPage />} />
                         <Route exact path={routes.PASSWORD_FORGET} component={() => <PasswordForgetPage />} />
                         <Route exact path={routes.ADMIN} component={() => <AdminPage />} />

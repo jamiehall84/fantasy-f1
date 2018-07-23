@@ -11,10 +11,11 @@ import {
     Grid,
     Responsive,
     Tab,
-    Icon
+    Icon,
+    Table,
+    Label,
 } from 'semantic-ui-react';
 import Moment from 'react-moment';
-import axios from 'axios';
 
 class Race extends Component {
     constructor(props) {
@@ -186,43 +187,47 @@ const RacePoints = ({ Results }) => (
         </Grid>
     </div>
 );
-const PlayerPoints = ({ Players, Results }) => (
+const PlayerPoints = ({ Players, Round, Season }) => (
     
     <div>
-        
-        <Grid  divided='vertically'>
-            <Grid.Row color='black'>
-                <Responsive as={Grid.Column} mobile={4} tablet={4} computer={3}>
-                    Driver
-                </Responsive>
-                <Responsive as={Grid.Column} mobile={4} tablet={4} computer={3}>
-                    Player
-                </Responsive>
-                <Responsive as={Grid.Column} mobile={3} tablet={3} computer={3} >
-                    Result
-                </Responsive>
-                <Responsive as={Grid.Column} mobile={3} tablet={3} computer={3} >
-                    Difference
-                </Responsive>
-                <Responsive as={Grid.Column} mobile={2} tablet={2} computer={1}>
-                    Total
-                </Responsive>
-            </Grid.Row>
-            {Object.keys(Results).map(key =>
-            (Results[key] !== null?
-            <Grid.Row key={key} color={parseInt(key, 10) % 2 === 0? 'grey' : null} >
-                <Responsive as={Grid.Column} mobile={4} tablet={4} computer={3}>{Results[key].Driver.code}</Responsive>
-                <Responsive as={Grid.Column} mobile={4} tablet={4} computer={3}>{Results[key].Player.Name.displayName}</Responsive>
-                <Responsive as={Grid.Column} mobile={3} tablet={3} computer={3}>{Results[key].Points.result}</Responsive>
-                <Responsive as={Grid.Column} mobile={3} tablet={3} omputer={3}>{Results[key].Points.difference}</Responsive>
-                <Responsive as={Grid.Column} mobile={2} tablet={2} omputer={1}>{Results[key].Points.total}</Responsive>
-            </Grid.Row>
-            : null)
-            )}
-        </Grid>
+        <Table celled unstackable striped selectable >
+                <Table.Header>
+                <Table.Row>
+                    <Table.HeaderCell>Pos</Table.HeaderCell>
+                    <Table.HeaderCell>Player</Table.HeaderCell>
+                    <Table.HeaderCell>Pts</Table.HeaderCell>
+                </Table.Row>
+                </Table.Header>
+            
+                <Table.Body>
+                {Object.keys(Players.sort(sortPlayers)).map(key =>
+                    <Table.Row key={key}>
+                        <Table.Cell>
+                            {parseInt(key,10) === 0 ?
+                                <Label ribbon color='yellow'>{parseInt(key,10)+1}</Label>
+                            : 
+                                parseInt(key,10)+1
+                            }
+                        </Table.Cell>
+                        <Table.Cell>
+                            <Link to={`/player/${Season}/${key}`}>{Players[key].Name.displayName}</Link>
+                        </Table.Cell>
+                        <Table.Cell>{Players[key].Points[Round].Total.total}</Table.Cell>
+                    </Table.Row>
+                    )}
+                </Table.Body>
+            </Table>
     </div>
 );
-
+const sortPlayers = (a,b) => {
+    if (parseInt(a.total,10) < parseInt(b.total,10)){
+        return 1;
+    }
+    if (parseInt(a.total,10) > parseInt(b.total,10)){
+        return -1;
+    }
+    return 0;
+  }
 const panes = [
     { 
         menuItem: 'Points By Player', 
@@ -232,7 +237,7 @@ const panes = [
             {race.Results == null?
             <p>The points have not yet been calculated for this race.
             </p>
-            :<PlayerPoints Players={season.players} Results={race.Results} />}
+            :<PlayerPoints Players={season.Players} Round={race.round} Season={race.season} />}
         </Tab.Pane>
     },
     { 

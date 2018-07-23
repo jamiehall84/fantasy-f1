@@ -43,7 +43,6 @@ class AddPlayerForm extends Component {
         'displayName': displayName
     };
     const key = season.Players == null? 0 : season.Players.length;
-     debugger;  
     db.doCreatePlayer(key,season.year, Name, Driver1, Driver2, email)
       .then(() => {
         this.setState(() => ({ ...INITIAL_STATE }));

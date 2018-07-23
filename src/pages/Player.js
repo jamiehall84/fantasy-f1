@@ -87,7 +87,7 @@ class PlayerPage extends Component {
                                         </Grid.Column>
                                     <Grid.Column>
                                         <Header as='h3' color='red'>Driver 1</Header>
-                                        {player.Driver1==null?
+                                        {player.Driver1.code==null?
                                         <form>
                                             <select onChange={(event) => this.setDriver(event)} name='Driver1'>
                                                 <option>select driver</option>
@@ -101,7 +101,7 @@ class PlayerPage extends Component {
                                     </Grid.Column>
                                     <Grid.Column>
                                         <Header as='h3' color='red'>Driver 2</Header>
-                                        {player.Driver2==null?
+                                        {player.Driver2.code==null?
                                         <form>
                                             <select onChange={(event) => this.setDriver(event)} name='Driver2'>
                                                 <option>select driver</option>
