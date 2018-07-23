@@ -70,7 +70,7 @@ class SeasonPage extends Component {
                             <PlayerList season={season} addPlayer={this.GetSeason.bind(this)} viewPlayer={this.viewPlayer.bind(this)} />
                             { !!season.races && <RaceList races={season.races} season={season.year} /> }
                         </Container>
-                        {showPlayer && <PlayerPage season={season} player={player} close={this.closePlayer.bind(this)} />}
+                        {showPlayer && <PlayerPage season={season} player={player} close={this.closePlayer.bind(this)} open={showPlayer} />}
                     </div>
                 )
             }

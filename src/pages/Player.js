@@ -13,7 +13,8 @@ import {
     Segment,
     Dimmer,
     Loader,
-    Table
+    Table,
+    Modal,
 } from 'semantic-ui-react';
 
 
@@ -65,50 +66,56 @@ class PlayerPage extends Component {
     render(){
         const { season, player } = this.props;
         return(
-            <Container fluid style={{position: 'fixed', top: '7em', zIndex: 1000 }}>
-                <Segment inverted>
-                    <Header as='h1' color='red'>{player.Name.firstName} {player.Name.familyName}</Header>
+            <Modal
+                open={this.props.open}
+                onClose={this.props.close}
+                size='small'
+                closeIcon
+            >
+                <Header icon='user' content={`${player.Name.firstName} ${player.Name.familyName}`} />
+                <Modal.Content>
+                    <Header as='h1' color='red'></Header>
                     <Header as='h2' color='black'>{player.total} Points</Header>
                     <Grid columns={3} divided stackable>
                         <Grid.Row>
                             <Grid.Column>
-                                <Button icon labelPosition='left'color='red' onClick={this.props.close} style={{marginTop:'1em'}}>
-                                <Icon name='arrow alternate circle left' />
-                                Close
-                            </Button>
+                                <Header as='h3' color='red'>Driver 1</Header>
+                                {player.Driver1.code==null?
+                                <form>
+                                    <select onChange={(event) => this.setDriver(event)} name='Driver1'>
+                                        <option>select driver</option>
+                                        {Object.keys(season.Drivers).map(key =>
+                                            <option value={key} >{season.Drivers[key].givenName} {season.Drivers[key].familyName}</option>
+                                        )}
+                                    </select>
+                                </form>
+                                :
+                                <p>{player.Driver1.givenName} {player.Driver1.familyName}</p>}
                             </Grid.Column>
-                        <Grid.Column>
-                            <Header as='h3' color='red'>Driver 1</Header>
-                            {player.Driver1.code==null?
-                            <form>
-                                <select onChange={(event) => this.setDriver(event)} name='Driver1'>
-                                    <option>select driver</option>
-                                    {Object.keys(season.Drivers).map(key =>
-                                        <option value={key} >{season.Drivers[key].givenName} {season.Drivers[key].familyName}</option>
-                                    )}
-                                </select>
-                            </form>
-                            :
-                            <p>{player.Driver1.givenName} {player.Driver1.familyName}</p>}
-                        </Grid.Column>
-                        <Grid.Column>
-                            <Header as='h3' color='red'>Driver 2</Header>
-                            {player.Driver2.code==null?
-                            <form>
-                                <select onChange={(event) => this.setDriver(event)} name='Driver2'>
-                                    <option>select driver</option>
-                                    {Object.keys(season.Drivers).map(key =>
-                                        <option value={key} >{season.Drivers[key].givenName} {season.Drivers[key].familyName}</option>
-                                    )}
-                                </select>
-                            </form>
-                            :<p>{player.Driver2.givenName} {player.Driver2.familyName}</p>}
-                        </Grid.Column>
+                            <Grid.Column>
+                                <Header as='h3' color='red'>Driver 2</Header>
+                                {player.Driver2.code==null?
+                                <form>
+                                    <select onChange={(event) => this.setDriver(event)} name='Driver2'>
+                                        <option>select driver</option>
+                                        {Object.keys(season.Drivers).map(key =>
+                                            <option value={key} >{season.Drivers[key].givenName} {season.Drivers[key].familyName}</option>
+                                        )}
+                                    </select>
+                                </form>
+                                :<p>{player.Driver2.givenName} {player.Driver2.familyName}</p>}
+                            </Grid.Column>
                         </Grid.Row>
                     </Grid>
                     <RacePoints Points={player.Points} />
-                </Segment>
-            </Container>
+                </Modal.Content>
+                <Modal.Actions>
+                <Button color='green' onClick={this.props.close} inverted>
+                    <Icon name='checkmark' /> Got it
+                </Button>
+                </Modal.Actions>
+            </Modal>
+            
         );
     }
 }
