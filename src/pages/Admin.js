@@ -28,7 +28,7 @@ class AdminPage extends Component {
         );
     }
     getSeason = () => {
-        axios.get(`http://ergast.com/api/f1/2018.json`)
+        axios.get(`https://ergast.com/api/f1/2018.json`)
           .then( res => {
             const season = res.data.MRData.RaceTable;
             db.doCreateSeason(season.season)
@@ -66,7 +66,7 @@ class AdminPage extends Component {
           });
       }
       getQualifying = (race) => {
-        axios.get(`http://ergast.com/api/f1/2018/${race.round}/qualifying.json`)
+        axios.get(`https://ergast.com/api/f1/2018/${race.round}/qualifying.json`)
           .then( res => {
             const data = res.data.MRData.RaceTable;
             if(data.Races[0]!=null){
@@ -81,7 +81,7 @@ class AdminPage extends Component {
       }
 
       getResults = (race) => {
-        axios.get(`http://ergast.com/api/f1/2018/${race.round}/results.json`)
+        axios.get(`https://ergast.com/api/f1/2018/${race.round}/results.json`)
           .then( res => {
             const data = res.data.MRData.RaceTable;
             if(data.Races[0]!=null){
@@ -95,7 +95,7 @@ class AdminPage extends Component {
           });
       }
       getDrivers = () => {
-        axios.get(`http://ergast.com/api/f1/2018/drivers.json`)
+        axios.get(`https://ergast.com/api/f1/2018/drivers.json`)
           .then( res => {
             const data = res.data.MRData.DriverTable.Drivers;
             if(data[0]!=null){

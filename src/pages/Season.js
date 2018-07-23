@@ -106,7 +106,7 @@ class SeasonPage extends Component {
     }
 
     getQualifying = (race) => {
-        axios.get(`http://ergast.com/api/f1/2018/${race.round}/qualifying.json`)
+        axios.get(`https://ergast.com/api/f1/2018/${race.round}/qualifying.json`)
           .then( res => {
             const data = res.data.MRData.RaceTable;
             if(data.Races[0]!=null){
@@ -121,7 +121,7 @@ class SeasonPage extends Component {
       }
 
     getResults = (race) => {
-    axios.get(`http://ergast.com/api/f1/2018/${race.round}/results.json`)
+    axios.get(`https://ergast.com/api/f1/2018/${race.round}/results.json`)
         .then( res => {
         const data = res.data.MRData.RaceTable;
         if(data.Races[0]!=null){

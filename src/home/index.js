@@ -28,7 +28,7 @@ class HomeContainer extends Component {
   }
 
   getSeason = () => {
-    axios.get(`http://ergast.com/api/f1/2018.json`)
+    axios.get(`https://ergast.com/api/f1/2018.json`)
       .then( res => {
         const season = res.data.MRData.RaceTable;
         this.setState(byPropKey('season',season));
