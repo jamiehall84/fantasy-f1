@@ -151,7 +151,7 @@ const RacePoints = ({ Points }) => (
                 </Table.Row>
             </Table.Header>
             <Table.Body>
-            {Object.keys(Points).map(key =>
+            {Object.keys(Points.reverse()).map(key =>
                 <Table.Row key={key}>
                     <Table.Cell>
                         {Points[key].raceName}
