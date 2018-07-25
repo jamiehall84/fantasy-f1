@@ -32,6 +32,10 @@ class App extends React.Component {
     state = { 
         visible: false,
         loading: true,
+        season: null,
+        race: null,
+        player: null,
+        driver: null
     };
     componentDidMount(){
         const season = (new Date()).getFullYear();
@@ -112,6 +116,7 @@ class App extends React.Component {
                     
                     player.Points[r] = {
                         'raceName': race.raceName,
+                        'raceRound': race.round,
                         'Driver1': driver1,
                         'Driver2': driver2,
                         'Total': total
@@ -194,11 +199,18 @@ class App extends React.Component {
         };
         return points;
     }
+
+    viewRace = (race) => {
+        this.setState({ race: race });
+    }
+    viewPlayer = (player) => {
+        this.setState({ player: player });
+    }
     handleButtonClick = () => this.setState({ visible: !this.state.visible })
     handleSidebarHide = () => this.setState({ visible: false })
 
     render() {
-        const { visible, season, loading } = this.state
+        const { visible, season,race,player,driver, loading } = this.state
         return (
         <Router>
             <div>                
@@ -239,15 +251,15 @@ class App extends React.Component {
                             </Segment>
                         :
                         <div>
-                            <Route exact path={routes.LANDING} component={()=> <LandingPage season={season}/>} />
+                            <Route exact path={routes.LANDING} component={()=> <LandingPage season={season} viewRace={this.viewRace.bind(this)} />} />
                             <Route exact path={routes.SIGN_IN} component={()=> <Login />} />
-                            <Route exact path={routes.HOME} component={()=> <SeasonPage season={season} updateSeason={this.updateSeason.bind(this)} />} />
+                            <Route exact path={routes.HOME} component={()=> <SeasonPage season={season} updateSeason={this.updateSeason.bind(this)} viewRace={this.viewRace.bind(this)} viewPlayer={this.viewPlayer.bind(this)} />} />
                             <Route exact path={routes.ACCOUNT} component={() => <AccountPage />} />
                             <Route exact path={routes.PASSWORD_FORGET} component={() => <PasswordForgetPage />} />
                             <Route exact path={routes.ADMIN} component={() => <AdminPage />} />
-                            <Route exact path={routes.SEASON} component={() => <SeasonPage season={season} updateSeason={this.updateSeason.bind(this)} />} />
-                            <Route exact path={routes.RACE} component={Race} />
-                            <Route exact path={routes.PLAYER} component={PlayerPage} />
+                            <Route exact path={routes.SEASON} component={() => <SeasonPage season={season} updateSeason={this.updateSeason.bind(this)} viewRace={this.viewRace.bind(this)} viewPlayer={this.viewPlayer.bind(this)} />} />
+                            <Route exact path={routes.RACE} component={()=> <Race season={season} race={race} />}  />
+                            <Route exact path={routes.PLAYER} component={()=> <PlayerPage season={season} player={player} viewRace={this.viewRace.bind(this)} />} />
                         </div>
                         }
                     </Sidebar.Pusher>

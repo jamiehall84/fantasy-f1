@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import AuthUserContext from '../components/AuthUserContext';
 import withAuthorization from '../components/withAuthorization';
 import { db } from '../firebase';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import {
     Container,
     Header,
@@ -27,14 +27,15 @@ class Race extends Component {
         };
     }
     componentWillMount(){
-        const { match: { params } } = this.props;
-        db.getSeason(params.year).then(s =>
+        const { season, race } = this.props;
             this.setState(() => ({
-                season: s.val(),
-                race: s.val().races[params.race],
+                season: season,
+                race: race,
                 loading: false,
             }))
-        );
+    }
+    goBack = () => {
+        this.props.history.goBack();
     }
     render(){
         const { season, race } = this.state;
@@ -44,7 +45,7 @@ class Race extends Component {
                     <Container text style={{ marginTop: '6em' }}>
                     {race!= null?
                         <div>
-                            <Header as='h1' color='red'>{race.raceName}</Header>
+                            <Header as='h1' color='green'>{race.raceName}</Header>
                             <Grid columns={3} divided stackable>
                                 <Grid.Row>
                                     <Grid.Column>
@@ -53,10 +54,10 @@ class Race extends Component {
                                         <p><b>Circuit:</b> {race.Circuit.circuitName}</p>
                                         <p><b>Date:</b> <Moment format="DD MMM YY">{race.date}</Moment></p>
                                         <p><b>Time:</b> {race.time }</p>
-                                        <Button icon labelPosition='left'color='red' as={Link} to={`/season/${race.season}`} style={{marginTop:'1em'}}>
-                                        <Icon name='arrow alternate circle left' />
-                                        Back to Race List
-                                    </Button>
+                                        <Button icon labelPosition='left' color='green' onClick={this.goBack} style={{marginTop:'1em'}}>
+                                            <Icon name='arrow alternate circle left' />
+                                            Back
+                                        </Button>
                                     </Grid.Column>
                                 <Grid.Column>
                                 </Grid.Column>
@@ -67,9 +68,7 @@ class Race extends Component {
                             <TabExampleSecondaryPointing race={race} season={season} />
                         </div>
                     :
-                        <div>
-                            <Header as='h1'>Loading</Header>
-                        </div>
+                        <Redirect to='/home'/>
                     }
                     </Container>
               }
@@ -81,7 +80,7 @@ class Race extends Component {
 const QualifyingResults = ({ Results }) => (
     
     <div>
-        <Table celled unstackable striped selectable >
+        <Table celled unstackable striped selectable inverted>
             <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell>Pos</Table.HeaderCell>
@@ -97,7 +96,7 @@ const QualifyingResults = ({ Results }) => (
                 <Table.Row key={key}>
                     <Table.Cell>
                         {parseInt(key,10) === 0 ?
-                            <Label ribbon color='yellow'>{Results[key].position}</Label>
+                            <Label ribbon color='green'>{Results[key].position}</Label>
                         : 
                         Results[key].position
                         }
@@ -117,7 +116,7 @@ const QualifyingResults = ({ Results }) => (
 const RaceResults = ({ Results }) => (
     
     <div>
-        <Table celled unstackable striped selectable >
+        <Table celled unstackable striped selectable inverted>
             <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell>Pos</Table.HeaderCell>
@@ -132,7 +131,7 @@ const RaceResults = ({ Results }) => (
                 <Table.Row key={key}>
                     <Table.Cell>
                         {parseInt(key,10) === 0 ?
-                            <Label ribbon color='yellow'>{Results[key].position}</Label>
+                            <Label ribbon color='green'>{Results[key].position}</Label>
                         : 
                         Results[key].position
                         }
@@ -150,7 +149,7 @@ const RaceResults = ({ Results }) => (
 const RacePoints = ({ Results }) => (
     
     <div>
-        <Table celled unstackable striped selectable >
+        <Table celled unstackable striped selectable inverted>
             <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell>Pos</Table.HeaderCell>
@@ -166,7 +165,7 @@ const RacePoints = ({ Results }) => (
                 <Table.Row key={key}>
                     <Table.Cell>
                         {parseInt(key,10) === 0 ?
-                            <Label ribbon color='yellow'>{parseInt(key,10)+1}</Label>
+                            <Label ribbon color='green'>{parseInt(key,10)+1}</Label>
                         : 
                             parseInt(key,10)+1
                         }
@@ -185,7 +184,7 @@ const RacePoints = ({ Results }) => (
 const PlayerPoints = ({ Players, Round, Season }) => (
     
     <div>
-        <Table celled unstackable striped selectable >
+        <Table celled unstackable striped selectable inverted >
                 <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell>Pos</Table.HeaderCell>
@@ -199,13 +198,13 @@ const PlayerPoints = ({ Players, Round, Season }) => (
                     <Table.Row key={key}>
                         <Table.Cell>
                             {parseInt(key,10) === 0 ?
-                                <Label ribbon color='yellow'>{parseInt(key,10)+1}</Label>
+                                <Label ribbon color='green'>{parseInt(key,10)+1}</Label>
                             : 
                                 parseInt(key,10)+1
                             }
                         </Table.Cell>
                         <Table.Cell>
-                            <Link to={`/player/${Season}/${key}`}>{Players[key].Name.displayName}</Link>
+                            {Players[key].Name.displayName}
                         </Table.Cell>
                         <Table.Cell>{Players[key].Points[Round].Total.total}</Table.Cell>
                     </Table.Row>
@@ -237,7 +236,7 @@ const panes = [
         menuItem: 'Points By Player', 
         render: ({season, race}) => 
         <Tab.Pane attached={false}>
-            <Header as='h2' color='red' style={{ marginBottom: '1em' }}>Race Points</Header>
+            <Header as='h2' color='green' style={{ marginBottom: '1em' }}>Race Points</Header>
             {race.Results == null?
             <p>The points have not yet been calculated for this race.
             </p>
@@ -248,7 +247,7 @@ const panes = [
         menuItem: 'Points by Driver', 
         render: ({race}) => 
         <Tab.Pane attached={false}>
-            <Header as='h2' color='red' style={{ marginBottom: '1em' }}>Race Points</Header>
+            <Header as='h2' color='green' style={{ marginBottom: '1em' }}>Race Points</Header>
             {race.Results == null?
             <p>The points have not yet been calculated for this race.
             </p>
@@ -259,7 +258,7 @@ const panes = [
         menuItem: 'Race Results', 
         render: ({race}) => 
             <Tab.Pane attached={false}>
-                <Header as='h2' color='red' style={{ marginBottom: '1em' }}>Race Results</Header>
+                <Header as='h2' color='green' style={{ marginBottom: '1em' }}>Race Results</Header>
                 {race.QualifyingResults == null?
                 <p>There are no results for this race yet.</p>
                 :<RaceResults Results={race.Results} />
@@ -269,7 +268,7 @@ const panes = [
         menuItem: 'Qualifying Results', 
         render: ({race}) => 
             <Tab.Pane attached={false}>
-                <Header as='h2' color='red' style={{ marginBottom: '1em' }}>Qualifying Results</Header>
+                <Header as='h2' color='green' style={{ marginBottom: '1em' }}>Qualifying Results</Header>
                 {race.QualifyingResults == null?
                     <p>There are no results for this race yet.</p>
                 : <QualifyingResults Results={race.QualifyingResults} />}</Tab.Pane> 

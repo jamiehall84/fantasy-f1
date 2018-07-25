@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import AuthUserContext from '../components/AuthUserContext';
 import withAuthorization from '../components/withAuthorization';
 import { db } from '../firebase';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import {
     Container,
     Header,
@@ -41,6 +41,9 @@ class PlayerPage extends Component {
     //         )
     //     );
     // }
+    goBack = () => {
+        this.props.history.goBack();
+    }
     setDriver = (event) => {
         const { match: { params } } = this.props;
         const {season, player} = this.state;
@@ -83,18 +86,25 @@ class PlayerPage extends Component {
         return this.props.player.Points.filter(t => t!= null).reduce((h, c) => c.Total.total > h.Total.total ? c : h);
     }
 
+    viewRace = (round) => {
+        const { season } = this.props;
+        const race = season.races[round];
+        this.props.viewRace(race);
+        this.props.history.push(`/race`);
+    }
     render(){
         const { season, player } = this.props;
         return(
-            <Modal
-                open={this.props.open}
-                onClose={this.props.close}
-                size='small'
-                closeIcon
-            >
-                <Header icon='user' content={`${player.Name.firstName} ${player.Name.familyName}`} />
-                <Modal.Content>
-                    <Header as='h1' color='green'>{player.total} Points - </Header>
+            (player == null?
+                <Redirect to='/home'/>
+                :
+                <Container style={{ marginTop: '6em' }}>
+                    <Header as='h1' color='green'>{player.Name.firstName} {player.Name.familyName}</Header>
+                    <Header as='h2' color='green'>{player.total} Points</Header>
+                    <Button icon labelPosition='left' color='green' onClick={this.goBack} style={{marginBottom:'1em'}}>
+                        <Icon name='arrow alternate circle left' />
+                        Back
+                    </Button>
                     <Grid columns={3} divided stackable>
                         <Grid.Row>
                             <Grid.Column>
@@ -129,19 +139,13 @@ class PlayerPage extends Component {
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
-                    <RacePoints Points={player.Points} />
-                </Modal.Content>
-                <Modal.Actions>
-                <Button color='green' onClick={this.props.close} inverted>
-                    <Icon name='checkmark' /> Got it
-                </Button>
-                </Modal.Actions>
-            </Modal>
-            
+                    <RacePoints Points={player.Points} viewRace={this.viewRace.bind(this)} />
+            </Container>
+            )
         );
     }
 }
-const RacePoints = ({ Points }) => (
+const RacePoints = ({ Points, viewRace }) => (
     
     <div>
         <Table celled unstackable striped selectable inverted style={{marginTop: '1em'}} >
@@ -154,8 +158,8 @@ const RacePoints = ({ Points }) => (
                 </Table.Row>
             </Table.Header>
             <Table.Body>
-            {Object.keys(Points.reverse()).map(key =>
-                <Table.Row key={key}>
+            {Object.keys(Points).map(key =>
+                <Table.Row key={key} onClick={(round)=> viewRace(Points[key].raceRound)}>
                     <Table.Cell>
                         {Points[key].raceName}
                     </Table.Cell>
@@ -171,4 +175,4 @@ const RacePoints = ({ Points }) => (
 
 const authCondition = (authUser) => !! authUser;
 
-export default PlayerPage;
+export default withAuthorization(authCondition)(withRouter(PlayerPage));

@@ -15,6 +15,7 @@ import {
   } from 'semantic-ui-react'
   import PlayerList from '../components/PlayerList';
   import PlayerPage from './Player';
+  import * as routes from '../constants/routes';
 
 class SeasonPage extends Component {
     constructor(props) {
@@ -38,16 +39,18 @@ class SeasonPage extends Component {
     }
 
     viewPlayer = (player) => {
-        this.setState(() => ({
-            player: player,
-            showPlayer: true,
-         }))
+        this.props.viewPlayer(player);
+        this.props.history.push(`/player`);
     }
     closePlayer = () => {
         this.setState(() => ({
             player: null,
             showPlayer: false,
          }))
+    }
+    viewRace = (race) => {
+        this.props.viewRace(race);
+        this.props.history.push(`/race`);
     }
 
     render(){
@@ -75,9 +78,8 @@ class SeasonPage extends Component {
                                 Update season
                             </Button>
                             <PlayerList season={season} addPlayer={this.GetSeason.bind(this)} viewPlayer={this.viewPlayer.bind(this)} />
-                            { !!season.races && <RaceList races={season.races} season={season.year} /> }
+                            { !!season.races && <RaceList races={season.races} season={season.year} viewRace={this.viewRace.bind(this)} /> }
                         </Container>
-                        {showPlayer && <PlayerPage season={season} player={player} close={this.closePlayer.bind(this)} open={showPlayer} />}
                     </div>
                 )
             }
@@ -85,7 +87,7 @@ class SeasonPage extends Component {
         );
     }
 }
-const RaceList = ({ season, races }) => (
+const RaceList = ({ viewRace, races }) => (
     <div>
         <h2>Races this season</h2>
         <List divided relaxed>
@@ -93,7 +95,7 @@ const RaceList = ({ season, races }) => (
                 <List.Item key={key}>
                     <List.Icon name='flag checkered' size='large' verticalAlign='middle' />
                     <List.Content>
-                        <List.Header as={Link} to={`/race/${season}/${key}`}>{races[key].raceName}</List.Header>
+                        <List.Header onClick={(race)=>viewRace(races[key])}>{races[key].raceName}</List.Header>
                         <List.Description as='a'>{races[key].date} {races[key].time}</List.Description>
                     </List.Content>
                 </List.Item>
