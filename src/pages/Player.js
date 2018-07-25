@@ -85,6 +85,9 @@ class PlayerPage extends Component {
     bestRace = () => {
         return this.props.player.Points.filter(t => t!= null).reduce((h, c) => c.Total.total > h.Total.total ? c : h);
     }
+    worstRace = () => {
+        return this.props.player.Points.filter(t => t!= null).reduce((h, c) => c.Total.total < h.Total.total ? c : h);
+    }
 
     viewRace = (round) => {
         const { season } = this.props;
@@ -95,6 +98,7 @@ class PlayerPage extends Component {
     render(){
         const { season, player } = this.props;
         const bestRace = this.bestRace();
+        const worstRace = this.worstRace();
         return(
             (player == null?
                 <Redirect to='/home'/>
@@ -138,6 +142,7 @@ class PlayerPage extends Component {
                             <Grid.Column>
                                 <Header as='h3' color='green'>Stats</Header>
                                 <p><b>Best Race:</b> {bestRace.raceName} ({bestRace.Total.total})</p>
+                                <p><b>Worst Race:</b> {worstRace.raceName} ({worstRace.Total.total})</p>
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>

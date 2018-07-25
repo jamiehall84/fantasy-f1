@@ -3,7 +3,7 @@ import 'firebase/auth';
 import 'firebase/database';
 
 const config = {
-    apiKey: "AIzaSyBgTCT6JemZzSkEfoHF1_jaRDdQMVKLiZo",
+    apiKey: process.env.REACT_APP_FIREBASE_KEY,
     authDomain: process.env.REACT_APP_FIREBASE_DOMAIN,
     databaseURL: "https://fantasy-f1-34814.firebaseio.com",
     projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
