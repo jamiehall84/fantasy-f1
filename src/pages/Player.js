@@ -79,6 +79,9 @@ class PlayerPage extends Component {
         }
         return total
     }
+    bestRace = () => {
+        return this.props.player.Points.filter(t => t!= null).reduce((h, c) => c.Total.total > h.Total.total ? c : h);
+    }
 
     render(){
         const { season, player } = this.props;
@@ -91,7 +94,7 @@ class PlayerPage extends Component {
             >
                 <Header icon='user' content={`${player.Name.firstName} ${player.Name.familyName}`} />
                 <Modal.Content>
-                    <Header as='h1' color='green'>{player.total} Points</Header>
+                    <Header as='h1' color='green'>{player.total} Points - </Header>
                     <Grid columns={3} divided stackable>
                         <Grid.Row>
                             <Grid.Column>
@@ -121,9 +124,9 @@ class PlayerPage extends Component {
                                 </form>
                                 :<p>{player.Driver2.givenName} {player.Driver2.familyName}: {`${this.driver2Points()} points`}</p>}
                             </Grid.Column>
-                                <Grid.Column>
-                                
-                                </Grid.Column>
+                            <Grid.Column>
+                                <p><b>Best Race:</b> {this.bestRace().raceName}</p>
+                            </Grid.Column>
                         </Grid.Row>
                     </Grid>
                     <RacePoints Points={player.Points} />
