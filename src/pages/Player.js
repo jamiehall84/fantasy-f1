@@ -135,6 +135,7 @@ class PlayerPage extends Component {
                                 :<p>{player.Driver2.givenName} {player.Driver2.familyName}: {`${this.driver2Points()} points`}</p>}
                             </Grid.Column>
                             <Grid.Column>
+                                <Header as='h3' color='green'>Stats</Header>
                                 <p><b>Best Race:</b> {this.bestRace().raceName}</p>
                             </Grid.Column>
                         </Grid.Row>
