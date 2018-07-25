@@ -251,7 +251,7 @@ class App extends React.Component {
                             </Segment>
                         :
                         <div>
-                            <Route exact path={routes.LANDING} component={()=> <LandingPage season={season} viewRace={this.viewRace.bind(this)} />} />
+                            <Route exact path={routes.LANDING} component={()=> <LandingPage season={season} viewRace={this.viewRace.bind(this)} viewPlayer={this.viewPlayer.bind(this)} />} />
                             <Route exact path={routes.SIGN_IN} component={()=> <Login />} />
                             <Route exact path={routes.HOME} component={()=> <SeasonPage season={season} updateSeason={this.updateSeason.bind(this)} viewRace={this.viewRace.bind(this)} viewPlayer={this.viewPlayer.bind(this)} />} />
                             <Route exact path={routes.ACCOUNT} component={() => <AccountPage />} />

@@ -73,7 +73,7 @@ class LoginContainer extends Component {
                   type='password'
                   name='password' />
 
-                  <Button color='red' fluid size='large' type="submit" disabled={isInvalid}>
+                  <Button color='green' fluid size='large' type="submit" disabled={isInvalid}>
                     Sign In
                   </Button>
                   <PasswordForgetLink />

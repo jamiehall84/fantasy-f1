@@ -19,10 +19,8 @@ class LandingPage extends Component {
     };
   }
   viewPlayer = (player) => {
-    this.setState(() => ({
-        player: player,
-        showPlayer: true,
-     }))
+    this.props.viewPlayer(player);
+    this.props.history.push(`/player`);
 }
 closePlayer = () => {
     this.setState(() => ({
@@ -47,7 +45,7 @@ closePlayer = () => {
                     <Container style={{ marginTop: '7em' }}>
                         <PlayerList season={season} viewPlayer={this.viewPlayer.bind(this)} />
                     </Container>
-                    {showPlayer && <PlayerPage season={season} player={player} close={this.closePlayer.bind(this)} open={showPlayer} />}
+                   
                 </div>
             )
         );

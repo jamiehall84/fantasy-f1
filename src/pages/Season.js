@@ -68,7 +68,7 @@ class SeasonPage extends Component {
                     </Segment>
                 :
                     <div>
-                        <Container text style={{ marginTop: '7em' }}>
+                        <Container style={{ marginTop: '7em' }}>
                             <Button 
                             onClick={this.props.updateSeason} 
                             color='green'

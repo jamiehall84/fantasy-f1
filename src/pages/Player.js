@@ -94,6 +94,7 @@ class PlayerPage extends Component {
     }
     render(){
         const { season, player } = this.props;
+        const bestRace = this.bestRace();
         return(
             (player == null?
                 <Redirect to='/home'/>
@@ -136,7 +137,7 @@ class PlayerPage extends Component {
                             </Grid.Column>
                             <Grid.Column>
                                 <Header as='h3' color='green'>Stats</Header>
-                                <p><b>Best Race:</b> {this.bestRace().raceName}</p>
+                                <p><b>Best Race:</b> {bestRace.raceName} ({bestRace.Total.total})</p>
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
