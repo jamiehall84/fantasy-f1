@@ -42,7 +42,7 @@ class Race extends Component {
         return(
           <AuthUserContext.Consumer>
               {authUser => 
-                    <Container text style={{ marginTop: '6em' }}>
+                    <Container style={{ marginTop: '6em' }}>
                     {race!= null?
                         <div>
                             <Header as='h1' color='green'>{race.raceName}</Header>
