@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import {
     Header,
     Table,
@@ -8,9 +7,6 @@ import {
 import AddPlayerForm from './AddPlayerForm';
 
 class PlayerList extends Component {
-  constructor(props) {
-    super(props);
-  }
   addPlayer = () => {
     this.props.addPlayer();
   }
@@ -24,11 +20,11 @@ class PlayerList extends Component {
     return 0;
   }
   render() {
-      const {season, currentUser} = this.props;
+      const {season} = this.props;
     return (
         <div>
             <Header as='h1' color='green'>{season.year} League Standings</Header>
-            {season.Players==null||season.Players.length < 10 && this.props.addPlayer!=null?
+            {(season.Players==null||season.Players.length) < 10 && this.props.addPlayer!=null?
             <AddPlayerForm season={season} addPlayer={this.addPlayer.bind(this)} />
             : null }
             {season.Players!=null?

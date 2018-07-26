@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import AuthUserContext from '../components/AuthUserContext';
 import withAuthorization from '../components/withAuthorization';
-import { db } from '../firebase';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import {
     Container,
     Header,
     Button,
     Grid,
-    Responsive,
     Tab,
     Icon,
     Table,

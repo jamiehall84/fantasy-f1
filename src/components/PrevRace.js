@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
-import {
-    Header, Card, Button, Modal
-  } from 'semantic-ui-react';
+import { Header, Card, Button } from 'semantic-ui-react';
 import Moment from 'react-moment';
 import PlayerRaceSummary from './PlayerRaceSummary';
-
-const ordinal = require('ordinal-js');
-
 class PreviousRace extends Component {
     constructor(props) {
         super(props);
@@ -53,7 +48,7 @@ class PreviousRace extends Component {
     }
 
     render() {
-        const {previousRace, driver1Result, driver2Result} = this.state;
+        const { previousRace } = this.state;
     return (
         
         <div>

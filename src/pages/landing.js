@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from 'react-router-dom';
-import { db } from '../firebase';
 import { Container, Segment, Dimmer, Loader} from 'semantic-ui-react';
 import PlayerList from '../components/PlayerList'
-import PlayerPage from '../pages/Player'
 
 const INITIAL_STATE = {
     season: null,
@@ -32,7 +30,6 @@ closePlayer = () => {
 
     render() {
         const { season } = this.props;
-        const { showPlayer, player } = this.state;
         return(
             ( season==null ?
                 <Segment style={{ minHeight: '100vh' }}>

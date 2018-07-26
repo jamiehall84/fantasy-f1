@@ -11,9 +11,6 @@ import RaceList from '../components/RaceList';
 import NextRace from '../components/NextRace';
 import PreviousRace from '../components/PrevRace';
 
-const byPropKey = (propertyName, value) => () => ({
-  [propertyName]: value,
-});
 
 class Dashboard extends Component {
     constructor(props) {

@@ -3,9 +3,6 @@ import { Header, Table } from 'semantic-ui-react';
 import Moment from 'react-moment';
 
 class RaceList extends Component {
-    constructor(props) {
-        super(props);
-    }
     viewRace = (race) => {
         this.props.viewRace(race);
     }

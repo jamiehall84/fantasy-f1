@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import AuthUserContext from '../components/AuthUserContext';
 import withAuthorization from '../components/withAuthorization';
 import { db } from '../firebase';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import {
     Container,
-    Header,
     List,
     Segment,
     Dimmer,
@@ -14,8 +13,6 @@ import {
     Icon,
   } from 'semantic-ui-react'
   import PlayerList from '../components/PlayerList';
-  import PlayerPage from './Player';
-  import * as routes from '../constants/routes';
 
 class SeasonPage extends Component {
     constructor(props) {
@@ -55,7 +52,6 @@ class SeasonPage extends Component {
 
     render(){
         const { season } = this.props;
-        const {showPlayer, player} = this.state;
         return(
         <AuthUserContext.Consumer>
             {authUser => 

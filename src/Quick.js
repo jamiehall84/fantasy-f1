@@ -27,7 +27,6 @@ import Dashboard from './pages/dashboard'
 import SeasonPage from './pages/Season';
 import PlayerPage from './pages/Player';
 import LandingPage from './pages/landing';
-import { auth } from '../node_modules/firebase';
 
 
 class App extends React.Component {
@@ -214,7 +213,7 @@ class App extends React.Component {
     handleSidebarHide = () => this.setState({ visible: false })
 
     render() {
-        const { visible, season,race,player,driver, loading } = this.state
+        const { visible, season,race,player, loading } = this.state
         return (
         <Router>
             <div>                

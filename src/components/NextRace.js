@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import {
-    Header, Card, Button, Modal
-  } from 'semantic-ui-react';
+import { Header, Card, Button } from 'semantic-ui-react';
 import Moment from 'react-moment';
 
 class NextRace extends Component {
