@@ -131,9 +131,9 @@ class PlayerPage extends Component {
                             <CartesianGrid strokeDasharray="0"/>
                             <Tooltip/>
                             <Legend />
-                            <Line type="monotone" dataKey={player.Driver1.code} stroke="#666" activeDot={{r: 8}}/>
+                            <Line type="monotone" dataKey={player.Driver1.code} stroke="#666"/>
                             <Line type="monotone" dataKey={player.Driver2.code} stroke="#333" />
-                            <Line type="monotone" dataKey="Total" stroke="#21ba45" />
+                            <Line type="monotone" dataKey="Total" stroke="#21ba45" activeDot={{r: 8}} />
                         </LineChart>
                     </ResponsiveContainer>
                     <Grid columns={3} divided stackable>
