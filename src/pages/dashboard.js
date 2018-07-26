@@ -7,6 +7,7 @@ import {
 import withAuthorization from '../components/withAuthorization';
 import AuthUserContext from '../components/AuthUserContext';
 import PlayerList from '../components/PlayerList';
+import RaceList from '../components/RaceList';
 import NextRace from '../components/NextRace';
 import PreviousRace from '../components/PrevRace';
 
@@ -48,6 +49,7 @@ class Dashboard extends Component {
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
+                    <RaceList season={season} viewRace={this.viewRace.bind(this)} style={{marginTop: '1em', marginBottom: '1em' }} />
                 </Container>
             }
         </AuthUserContext.Consumer>
