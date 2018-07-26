@@ -1,17 +1,14 @@
 import React, { Component } from "react";
 import {
     Container,
-    Header,
-    Image,
-    Segment,
-    Dimmer,
-    Loader,
+    Grid
   } from 'semantic-ui-react';
-import { db } from '../firebase';
+
 import withAuthorization from '../components/withAuthorization';
 import AuthUserContext from '../components/AuthUserContext';
-import axios from 'axios';
 import PlayerList from '../components/PlayerList';
+import NextRace from '../components/NextRace';
+import PreviousRace from '../components/PrevRace';
 
 const byPropKey = (propertyName, value) => () => ({
   [propertyName]: value,
@@ -24,53 +21,34 @@ class Dashboard extends Component {
           season: null,
         };
     }
-    componentDidMount(){
-        const season = (new Date()).getFullYear();
-        db.getSeason(season).then(s =>
-            this.setState(() => ({season: s.val() }))
-        );
+    viewPlayer = (player) => {
+        this.props.viewPlayer(player);
+        this.props.history.push(`/player`);
     }
 
-    addUser = (user) => {
-        console.log(`PROPS ARE ${this.props.history}`);
-        this.props.history.push('/profile');
+    viewRace = (race) => {
+        this.props.viewRace(race);
+        this.props.history.push(`/race`);
     }
-
-    getSeason = () => {
-        axios.get(`http://ergast.com/api/f1/2018.json`)
-        .then( res => {
-            const season = res.data.MRData.RaceTable;
-            this.setState(byPropKey('season',season));
-            console.log(res);
-        });
-    }
-
-    goToProfile(event){
-        event.preventDefault();
-        this.props.history.push('/profile');
-    }
+    
     render() {
-        const { season } = this.state;
+        const { season } = this.props;
         return (
-        <AuthUserContext.Consumer>
+            <AuthUserContext.Consumer>
             {authUser => 
-            ( season==null ?
-                <Segment style={{ minHeight: '100vh' }}>
-                    <Dimmer active inverted>
-                        <Loader size='large'>Loading Season</Loader>
-                    </Dimmer>
-                </Segment>
-            :
                 <Container style={{ marginTop: '7em' }}>
-                <Image src='/logo.png' size='large' style={{ marginTop: '2em' }} />
-                <Header as='h1'>Fanstasy F1</Header>
-                    <p>Hi {authUser.displayName}, this is a basic app in an effort to manage the data better.</p>
-                    <p>
-                    I'm happy to hear your thoughts on this and any ideas to take it further.
-                    </p>
-                    <PlayerList season={season} />
+                    <PlayerList season={season} viewPlayer={this.viewPlayer.bind(this)} />
+                    <Grid columns={2} stackable style={{marginTop: '1em', marginBottom: '1em' }} >
+                        <Grid.Row>
+                            <Grid.Column>
+                                <PreviousRace season={season} viewRace={this.viewRace.bind(this)} user={authUser} />
+                            </Grid.Column>
+                            <Grid.Column>
+                                <NextRace season={season} viewRace={this.viewRace.bind(this)} />
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
                 </Container>
-            )
             }
         </AuthUserContext.Consumer>
         );

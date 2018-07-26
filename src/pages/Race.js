@@ -16,6 +16,7 @@ import {
     Label,
 } from 'semantic-ui-react';
 import Moment from 'react-moment';
+import PlayerRaceSummary from '../components/PlayerRaceSummary';
 
 class Race extends Component {
     constructor(props) {
@@ -60,6 +61,10 @@ class Race extends Component {
                                         </Button>
                                     </Grid.Column>
                                 <Grid.Column>
+                                    <Header as='h3' color='green'>Your race summary</Header>
+                                    {race.Results != null?
+                                    <PlayerRaceSummary season={season} user={authUser} race={race} />
+                                    :<p>Results are not in for this race yet.</p>}
                                 </Grid.Column>
                                 <Grid.Column>
                                 </Grid.Column>

@@ -28,7 +28,7 @@ class PlayerList extends Component {
     return (
         <div>
             <Header as='h1' color='green'>{season.year} League Standings</Header>
-            {season.Players==null||season.Players.length < 10?
+            {season.Players==null||season.Players.length < 10 && this.props.addPlayer!=null?
             <AddPlayerForm season={season} addPlayer={this.addPlayer.bind(this)} />
             : null }
             {season.Players!=null?

@@ -23,9 +23,11 @@ import withAuthentication from './components/withAuthentication';
 import Navigation from './components/Navigation';
 import AdminPage from './pages/Admin';
 import Race from './pages/Race';
+import Dashboard from './pages/dashboard'
 import SeasonPage from './pages/Season';
 import PlayerPage from './pages/Player';
 import LandingPage from './pages/landing';
+import { auth } from '../node_modules/firebase';
 
 
 class App extends React.Component {
@@ -35,10 +37,12 @@ class App extends React.Component {
         season: null,
         race: null,
         player: null,
-        driver: null
+        driver: null,
+        me: null,
     };
     componentDidMount(){
         const season = (new Date()).getFullYear();
+        
         db.getSeason(season).then(s =>
             this.setState(() => (
                 {
@@ -59,7 +63,7 @@ class App extends React.Component {
             ))
         );
     }
-
+    
     updateSeason = () => {
         this.setState(() => ({loading: true }))
         const { season } = this.state;
@@ -253,7 +257,7 @@ class App extends React.Component {
                         <div>
                             <Route exact path={routes.LANDING} component={()=> <LandingPage season={season} viewRace={this.viewRace.bind(this)} viewPlayer={this.viewPlayer.bind(this)} />} />
                             <Route exact path={routes.SIGN_IN} component={()=> <Login />} />
-                            <Route exact path={routes.HOME} component={()=> <SeasonPage season={season} updateSeason={this.updateSeason.bind(this)} viewRace={this.viewRace.bind(this)} viewPlayer={this.viewPlayer.bind(this)} />} />
+                            <Route exact path={routes.HOME} component={()=> <Dashboard season={season} updateSeason={this.updateSeason.bind(this)} viewRace={this.viewRace.bind(this)} viewPlayer={this.viewPlayer.bind(this)} />} />
                             <Route exact path={routes.ACCOUNT} component={() => <AccountPage />} />
                             <Route exact path={routes.PASSWORD_FORGET} component={() => <PasswordForgetPage />} />
                             <Route exact path={routes.ADMIN} component={() => <AdminPage />} />
