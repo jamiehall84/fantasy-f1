@@ -44,7 +44,7 @@ class PreviousRace extends Component {
     }
     
     viewRace = () => {
-        this.props.viewRace(this.state.nextRace);
+        this.props.viewRace(this.state.previousRace);
     }
 
     render() {
