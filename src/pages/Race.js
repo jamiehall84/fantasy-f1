@@ -184,7 +184,7 @@ const RacePoints = ({ Results }) => (
         </Table>
     </div>
 );
-const PlayerPoints = ({ Players, Round, Season }) => (
+const PlayerPoints = ({ Players }) => (
     
     <div>
         <Table celled unstackable striped selectable inverted >
@@ -197,7 +197,7 @@ const PlayerPoints = ({ Players, Round, Season }) => (
                 </Table.Header>
             
                 <Table.Body>
-                {Object.keys(Players.sort(sortPlayers)).map(key =>
+                {Object.keys(Players).map(key =>
                     <Table.Row key={key}>
                         <Table.Cell>
                             {parseInt(key,10) === 0 ?
@@ -207,15 +207,36 @@ const PlayerPoints = ({ Players, Round, Season }) => (
                             }
                         </Table.Cell>
                         <Table.Cell>
-                            {Players[key].Name.displayName}
+                            {Players[key].name}
                         </Table.Cell>
-                        <Table.Cell>{Players[key].Points[Round].Total.total}</Table.Cell>
+                        <Table.Cell>{Players[key].points}</Table.Cell>
                     </Table.Row>
                     )}
                 </Table.Body>
             </Table>
     </div>
 );
+const GetPLayerPointsObject = (players, round) => {
+    var playerPoints = [];
+    for (let i = 0; i < players.length; i++) {
+        const p = players[i];
+        const player = {
+            "name" : p.Name.displayName,
+            "points" :  p.Points[round].Total.total,
+        }
+        playerPoints.push(player);
+    }
+    return playerPoints.sort(sortPlayerPoints)
+}
+const sortPlayerPoints = (a,b) => {
+    if (parseInt(a.points,10) < parseInt(b.points,10)){
+        return 1;
+    }
+    if (parseInt(a.points,10) > parseInt(b.points,10)){
+        return -1;
+    }
+    return 0;
+}
 const sortPlayers = (a,b) => {
     if (parseInt(a.total,10) < parseInt(b.total,10)){
         return 1;
@@ -243,7 +264,7 @@ const panes = [
             {race.Results == null?
             <p>The points have not yet been calculated for this race.
             </p>
-            :<PlayerPoints Players={season.Players} Round={race.round} Season={race.season} />}
+            :<PlayerPoints Players={GetPLayerPointsObject(season.Players,race.round)} />}
         </Tab.Pane>
     },
     { 
