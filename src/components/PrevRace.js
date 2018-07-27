@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { Header, Card, Button } from 'semantic-ui-react';
 import Moment from 'react-moment';
 import PlayerRaceSummary from './PlayerRaceSummary';
+import * as helper from '../constants/helper';
 class PreviousRace extends Component {
     constructor(props) {
         super(props);
-        const player = this.whoAmI(this.props.season);
+        const player = helper.WhoAmI(this.props.season, this.props.user);
         const previousRace = this.getPreviousRace(this.props.season);
         const driver1Result = this.findDriverResult(previousRace, player.Driver1.code);
         const driver2Result = this.findDriverResult(previousRace, player.Driver2.code);
@@ -17,11 +18,7 @@ class PreviousRace extends Component {
             driver2Result: driver2Result
         }
     }
-    whoAmI = (season) => {
-        return season.Players.find(p => {
-            return p.uid === this.props.user.uid
-            });
-    }
+    
     findDriverResult = (race,driverCode) => {
         return race.Results.find(p => {
             return p.Driver.code === driverCode

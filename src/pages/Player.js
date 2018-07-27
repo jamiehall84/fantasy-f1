@@ -11,7 +11,7 @@ import {
     Icon,
     Table,
 } from 'semantic-ui-react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import PlayerProgressGraph from '../components/PlayerProgressGraph';
 
 
 const byPropKey = (propertyName, value) => () => ({
@@ -77,26 +77,6 @@ class PlayerPage extends Component {
         return this.props.player.Points.filter(t => t!= null).reduce((h, c) => c.Total.total < h.Total.total ? c : h);
     }
 
-    graphData = () => {
-        if(this.props.player == null){return null;}
-        const Points = this.props.player.Points;
-        var data=[];
-        var d1 = 0;
-        var d2 = 0;
-        for (let index = 1; index < Points.length; index++) {
-            const P = Points[index];
-            d1 = d1 + parseInt(P.Driver1.total,10);
-            d2 = d2 + parseInt(P.Driver2.total,10);
-            data.push({
-                name: P.raceName,
-                [P.Driver1.code]: d1,
-                [P.Driver2.code]: d2,
-                Total: d1+d2,
-            });
-        }
-        return data;
-    }
-
     viewRace = (round) => {
         const { season } = this.props;
         const race = season.races[round];
@@ -107,7 +87,6 @@ class PlayerPage extends Component {
         const { season, player } = this.props;
         const bestRace = this.bestRace();
         const worstRace = this.worstRace();
-        const data = this.graphData();
         return(
             (player == null?
                 <Redirect to='/home'/>
@@ -119,18 +98,7 @@ class PlayerPage extends Component {
                         <Icon name='arrow alternate circle left' />
                         Back
                     </Button>
-                    <ResponsiveContainer width="100%" height={300}>
-                        <LineChart width={600} height={300} data={data}>
-                            <XAxis dataKey="name"/>
-                            <YAxis/>
-                            <CartesianGrid strokeDasharray="0"/>
-                            <Tooltip/>
-                            <Legend />
-                            <Line type="monotone" dataKey={player.Driver1.code} stroke="#666"/>
-                            <Line type="monotone" dataKey={player.Driver2.code} stroke="#333" />
-                            <Line type="monotone" dataKey="Total" stroke="#21ba45" activeDot={{r: 8}} />
-                        </LineChart>
-                    </ResponsiveContainer>
+                    <PlayerProgressGraph player={player} />
                     <Grid columns={3} divided stackable>
                         <Grid.Row>
                             <Grid.Column>

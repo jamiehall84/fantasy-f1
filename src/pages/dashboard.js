@@ -10,6 +10,7 @@ import PlayerList from '../components/PlayerList';
 import RaceList from '../components/RaceList';
 import NextRace from '../components/NextRace';
 import PreviousRace from '../components/PrevRace';
+import PlayerProgressGraph from '../components/PlayerProgressGraph';
 
 
 class Dashboard extends Component {
@@ -35,6 +36,7 @@ class Dashboard extends Component {
             <AuthUserContext.Consumer>
             {authUser => 
                 <Container style={{ marginTop: '7em' }}>
+                    <PlayerProgressGraph user={authUser} season={season}/>
                     <PlayerList season={season} viewPlayer={this.viewPlayer.bind(this)} />
                     <Grid columns={2} stackable style={{marginTop: '1em', marginBottom: '1em' }} >
                         <Grid.Row>
