@@ -125,7 +125,7 @@ class App extends React.Component {
                         'Total': total
                     }
                     totalPoints = totalPoints + total.total;
-                    
+                    debugger;
                 }
             }
             player.total = totalPoints;
@@ -172,7 +172,7 @@ class App extends React.Component {
             const result = results[i];
             
             result.qualifyingPosition = this.getDriverQualifyingPosition(result.Driver.code, QualifyingResults);
-            result.Points = this.calculatePoints(result.qualifyingPosition, result.position, result.positionText);
+            result.Points = this.calculatePoints(result.qualifyingPosition, result.position, result.status);
             result.Player = this.findPlayerByDriverCode(result.Driver.code);
         }
         return results;
@@ -191,9 +191,10 @@ class App extends React.Component {
     return result[0];
     }
 
-    calculatePoints = (qualifyingPosition, position, positionText) => {
-        const result = positionText !== 'R' ? (21 - parseInt(position, 10)) : 0;
-        const difference = positionText !== 'R' ? (parseInt(qualifyingPosition,10) - parseInt(position,10)) : (parseInt(qualifyingPosition,10) - 20);
+    calculatePoints = (qualifyingPosition, position, status) => {
+        const didFinish = status === "Finished" || status.match(/\+\d Lap/);
+        const result = didFinish ? (21 - parseInt(position, 10)) : 0;
+        const difference = didFinish ? (parseInt(qualifyingPosition,10) - parseInt(position,10)) : (parseInt(qualifyingPosition,10) - 20);
         const total = (result + difference);
         const points = {
             'result': result,

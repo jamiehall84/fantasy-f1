@@ -44,7 +44,7 @@ class Race extends Component {
                     <Container style={{ marginTop: '6em' }}>
                     {race!= null?
                         <div>
-                            <Header as='h1' color='green'>{race.raceName}</Header>
+                            <Header as='h1' color='green'>Round {race.round}: {race.raceName}</Header>
                             <Grid columns={3} divided stackable>
                                 <Grid.Row>
                                     <Grid.Column>
@@ -130,7 +130,7 @@ const RaceResults = ({ Results }) => (
                 </Table.Row>
             </Table.Header>
             <Table.Body>
-            {Object.keys(Results).map(key =>
+            {Object.keys(Results.sort(sortRaceResults)).map(key =>
                 <Table.Row key={key}>
                     <Table.Cell>
                         {parseInt(key,10) === 0 ?
@@ -233,6 +233,15 @@ const sortPlayerPoints = (a,b) => {
         return 1;
     }
     if (parseInt(a.points,10) > parseInt(b.points,10)){
+        return -1;
+    }
+    return 0;
+}
+const sortRaceResults = (a,b) => {
+    if (parseInt(a.position,10) > parseInt(b.position,10)){
+        return 1;
+    }
+    if (parseInt(a.position,10) < parseInt(b.position,10)){
         return -1;
     }
     return 0;
