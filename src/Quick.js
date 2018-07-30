@@ -228,6 +228,7 @@ class App extends React.Component {
                         vertical
                         visible={visible}
                         width='thin'
+                        style={{ position: 'fixed' }}
                     >
                     <Navigation onClick={this.handleSidebarHide.bind(this)} />
                     </Sidebar>
