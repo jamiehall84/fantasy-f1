@@ -56,8 +56,7 @@ class PasswordForgotForm extends Component{
             <Container style={{ marginTop: '7em' }}>
                 <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
                 <Grid.Column style={{ maxWidth: 450 }}>
-                    <Image src='/logo.png'size='small' centered /> 
-                    <Header as='h2' color='black' textAlign='center'>Log-in to your Fantasy F1 account</Header>
+                    <Header as='h4' color='black' textAlign='center'>I forgot my fucking password!!!</Header>
                     <Form size='large' onSubmit={this.onSubmit}>
                     <Segment stacked>
                         <Form.Input 
@@ -67,7 +66,7 @@ class PasswordForgotForm extends Component{
                         iconPosition='left' 
                         placeholder='Your E-mail address' 
                         />
-                        <Button color='red' fluid size='large' type="submit" disabled={isInvalid}>
+                        <Button color='green' fluid size='large' type="submit" disabled={isInvalid}>
                             Sign In
                         </Button>
                         { error && error.message }

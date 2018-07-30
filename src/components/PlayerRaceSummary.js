@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import * as helper from '../constants/helper';
 const ordinal = require('ordinal-js');
+
 class PlayerRaceSummary extends Component {
     constructor(props) {
         super(props);
-        const player = this.whoAmI(this.props.season);
+        const player = helper.WhoAmI(this.props.season, this.props.user);
         const driver1Result = this.findDriverResult(this.props.race, player.Driver1.code);
         const driver2Result = this.findDriverResult(this.props.race, player.Driver2.code);
         this.state = {
@@ -11,11 +13,6 @@ class PlayerRaceSummary extends Component {
             driver1Result: driver1Result,
             driver2Result: driver2Result,
         }
-    }
-    whoAmI = (season) => {
-        return season.Players.find(p => {
-            return p.uid === this.props.user.uid
-            });
     }
     findDriverResult = (race,driverCode) => {
         return race.Results.find(p => {

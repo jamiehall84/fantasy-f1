@@ -259,7 +259,7 @@ class App extends React.Component {
                             <Route exact path={routes.LANDING} component={()=> <LandingPage season={season} viewRace={this.viewRace.bind(this)} viewPlayer={this.viewPlayer.bind(this)} />} />
                             <Route exact path={routes.SIGN_IN} component={()=> <Login />} />
                             <Route exact path={routes.HOME} component={()=> <Dashboard season={season} updateSeason={this.updateSeason.bind(this)} viewRace={this.viewRace.bind(this)} viewPlayer={this.viewPlayer.bind(this)} />} />
-                            <Route exact path={routes.ACCOUNT} component={() => <AccountPage />} />
+                            <Route exact path={routes.ACCOUNT} component={() => <AccountPage season={season} />} />
                             <Route exact path={routes.PASSWORD_FORGET} component={() => <PasswordForgetPage />} />
                             <Route exact path={routes.ADMIN} component={() => <AdminPage />} />
                             <Route exact path={routes.SEASON} component={() => <SeasonPage season={season} updateSeason={this.updateSeason.bind(this)} viewRace={this.viewRace.bind(this)} viewPlayer={this.viewPlayer.bind(this)} />} />
