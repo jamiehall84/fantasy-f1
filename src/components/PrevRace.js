@@ -20,6 +20,7 @@ class PreviousRace extends Component {
     }
     
     findDriverResult = (race,driverCode) => {
+        if(race.Results== null){return null}
         return race.Results.find(p => {
             return p.Driver.code === driverCode
             });
@@ -57,8 +58,13 @@ class PreviousRace extends Component {
                        <Moment fromNow>{previousRace.actualTime}</Moment>
                     </Card.Meta>
                     <Card.Description>
-                        The last race was at the {previousRace.Circuit.circuitName} in {previousRace.Circuit.Location.locality}. 
-                        <PlayerRaceSummary season={this.props.season} user={this.props.user} race={previousRace} />
+                        {previousRace.Results==null?
+                        <p>Results have not been processed yet.</p>
+                        :<div>
+                            The last race was at the {previousRace.Circuit.circuitName} in {previousRace.Circuit.Location.locality}. 
+                            <PlayerRaceSummary season={this.props.season} user={this.props.user} race={previousRace} />
+                        </div>
+                        }
                     </Card.Description>
                 </Card.Content>
                 <Card.Content extra>
