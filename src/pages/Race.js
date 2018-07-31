@@ -82,8 +82,8 @@ class Race extends Component {
 
 const QualifyingResults = ({ Results }) => (
     
-    <div>
-        <Table celled unstackable striped selectable inverted>
+    <div style={{ 'overflowX': 'auto' }}>
+        <Table celled unstackable striped selectable inverted >
             <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell>Pos</Table.HeaderCell>
@@ -104,7 +104,7 @@ const QualifyingResults = ({ Results }) => (
                         Results[key].position
                         }
                     </Table.Cell>
-                    <Table.Cell>{Results[key].Driver.givenName} {Results[key].Driver.familyName}</Table.Cell>
+                    <Table.Cell>{Results[key].Driver.code}</Table.Cell>
                     <Table.Cell>{Results[key].Constructor.name}</Table.Cell>
                     <Table.Cell>{Results[key].Q1}</Table.Cell>
                     <Table.Cell>{Results[key].Q2}</Table.Cell>
@@ -118,7 +118,7 @@ const QualifyingResults = ({ Results }) => (
 
 const RaceResults = ({ Results }) => (
     
-    <div>
+    <div style={{ 'overflowX': 'auto' }}>
         <Table celled unstackable striped selectable inverted>
             <Table.Header>
                 <Table.Row>
@@ -139,7 +139,7 @@ const RaceResults = ({ Results }) => (
                         Results[key].position
                         }
                     </Table.Cell>
-                    <Table.Cell>{Results[key].Driver.givenName} {Results[key].Driver.familyName}</Table.Cell>
+                    <Table.Cell>{Results[key].Driver.code}</Table.Cell>
                     <Table.Cell>{Results[key].Constructor.name}</Table.Cell>
                     <Table.Cell>{Results[key].grid}</Table.Cell>
                     <Table.Cell>{Results[key].status}</Table.Cell>
@@ -151,7 +151,7 @@ const RaceResults = ({ Results }) => (
 );
 const RacePoints = ({ Results }) => (
     
-    <div>
+    <div style={{ 'overflowX': 'auto' }}>
         <Table celled unstackable striped selectable inverted>
             <Table.Header>
                 <Table.Row>
@@ -186,7 +186,7 @@ const RacePoints = ({ Results }) => (
 );
 const PlayerPoints = ({ Players }) => (
     
-    <div>
+    <div style={{ 'overflowX': 'auto' }}>
         <Table celled unstackable striped selectable inverted >
                 <Table.Header>
                 <Table.Row>
@@ -266,10 +266,10 @@ const sortPlayers = (a,b) => {
   }
 const panes = [
     { 
-        menuItem: 'Points By Player', 
+        menuItem: 'Players', 
         render: ({season, race}) => 
         <Tab.Pane attached={false}>
-            <Header as='h2' color='green' style={{ marginBottom: '1em' }}>Race Points</Header>
+            <Header as='h2' color='green' style={{ marginBottom: '1em' }}>Player Points</Header>
             {race.Results == null?
             <p>The points have not yet been calculated for this race.
             </p>
@@ -277,10 +277,10 @@ const panes = [
         </Tab.Pane>
     },
     { 
-        menuItem: 'Points by Driver', 
+        menuItem: 'Drivers', 
         render: ({race}) => 
         <Tab.Pane attached={false}>
-            <Header as='h2' color='green' style={{ marginBottom: '1em' }}>Race Points</Header>
+            <Header as='h2' color='green' style={{ marginBottom: '1em' }}>Drivers Points</Header>
             {race.Results == null?
             <p>The points have not yet been calculated for this race.
             </p>
@@ -288,7 +288,7 @@ const panes = [
         </Tab.Pane>
     },
     { 
-        menuItem: 'Race Results', 
+        menuItem: 'Race', 
         render: ({race}) => 
             <Tab.Pane attached={false}>
                 <Header as='h2' color='green' style={{ marginBottom: '1em' }}>Race Results</Header>
@@ -298,18 +298,18 @@ const panes = [
                 }
             </Tab.Pane> },
     { 
-        menuItem: 'Qualifying Results', 
+        menuItem: 'Qualifying', 
         render: ({race}) => 
             <Tab.Pane attached={false}>
                 <Header as='h2' color='green' style={{ marginBottom: '1em' }}>Qualifying Results</Header>
                 {race.QualifyingResults == null?
-                    <p>There are no results for this race yet.</p>
+                    <p>There are no qualifying results for this race yet.</p>
                 : <QualifyingResults Results={race.QualifyingResults} />}</Tab.Pane> 
     },
   ]
   
   const TabExampleSecondaryPointing = ({season, race}) => (
-    <Tab menu={{ secondary: true, pointing: true }} panes={panes} race={race} season={season} />
+    <Tab menu={{ secondary: true, pointing: true,size:'small' }} panes={panes} race={race} season={season} />
   )
 
 const authCondition = (authUser) => !! authUser;
