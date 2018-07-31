@@ -45,7 +45,7 @@ class Dashboard extends Component {
                     </Message>
                     <Header as='h1' color='green'></Header>
                     <PlayerProgressGraph user={authUser} season={season}/>
-                    <PlayerList season={season} viewPlayer={this.viewPlayer.bind(this)} />
+                    <PlayerList season={season} viewPlayer={this.viewPlayer.bind(this)} user={authUser} />
                     <Grid columns={2} stackable style={{marginTop: '1em', marginBottom: '1em' }} >
                         <Grid.Row>
                             <Grid.Column>

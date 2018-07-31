@@ -5,9 +5,17 @@ import {
     Label,
   } from 'semantic-ui-react';
 import AddPlayerForm from './AddPlayerForm';
+import * as helper from '../constants/helper';
 
 class PlayerList extends Component {
-  addPlayer = () => {
+    constructor(props) {
+        super(props);
+        const player = this.props.user != null ? helper.WhoAmI(this.props.season,this.props.user) : this.props.player;
+        this.state = {
+            player: player,
+        };
+    }
+    addPlayer = () => {
     this.props.addPlayer();
   }
   sortPlayers = (a,b) => {
@@ -21,6 +29,7 @@ class PlayerList extends Component {
   }
   render() {
       const {season} = this.props;
+      const { player } = this.state;
     return (
         <div>
             <Header as='h1' color='green'>{season.year} League Standings</Header>
@@ -41,13 +50,14 @@ class PlayerList extends Component {
             
                 <Table.Body>
                 {Object.keys(season.Players.sort(this.sortPlayers)).map(key =>
-                    <Table.Row key={key}  onClick={(player)=> this.props.viewPlayer(season.Players[key])}>
-                        <Table.Cell>
+                    <Table.Row key={key}  onClick={(player)=> this.props.viewPlayer(season.Players[key])} style={ season.Players[key] === player ? {'backgroundColor': '#16ab39'} : null }>
+                        <Table.Cell >
                             {parseInt(key,10) === 0 ?
-                                <Label ribbon color='green'>{parseInt(key,10)+1}</Label>
+                                <Label ribbon color='yellow'>{parseInt(key,10)+1}</Label>
                             : 
                                 parseInt(key,10)+1
                             }
+                            
                         </Table.Cell>
                         <Table.Cell>
                             {/* <Link to={`/player/${season.year}/${key}`}>{season.Players[key].Name.displayName}</Link> */}
