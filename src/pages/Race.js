@@ -33,6 +33,9 @@ class Race extends Component {
                 loading: false,
             }))
     }
+    componentDidMount(){
+        window.scrollTo(0, 0);
+    }
     goBack = () => {
         this.props.history.goBack();
     }

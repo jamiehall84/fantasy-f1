@@ -26,7 +26,9 @@ class PlayerPage extends Component {
             player: null,
         };
     }
-    
+    componentDidMount(){
+        window.scrollTo(0, 0);
+    }
     goBack = () => {
         this.props.history.goBack();
     }
