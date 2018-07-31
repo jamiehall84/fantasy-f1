@@ -50,8 +50,7 @@ class PasswordChangeForm extends Component {
             <Container style={{ marginTop: '7em' }}>
                 <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
                 <Grid.Column style={{ maxWidth: 450 }}>
-                    <Image src='/logo.png'size='small' centered /> 
-                    <Header as='h2' color='black' textAlign='center'>Reset My Password</Header>
+                    <Header as='h4' color='black' textAlign='center'>Reset My Password</Header>
                     <Form size='large' onSubmit={this.onSubmit}>
                     <Segment stacked>
                         <Form.Input 
@@ -70,7 +69,7 @@ class PasswordChangeForm extends Component {
                         iconPosition='left' 
                         placeholder='Confirm your new password' 
                         />
-                        <Button color='red' fluid size='large' type="submit" disabled={isInvalid}>
+                        <Button color='green' fluid size='large' type="submit" disabled={isInvalid}>
                         Reset My Password
                         </Button>
                         { error && error.message }
