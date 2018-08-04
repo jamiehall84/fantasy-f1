@@ -58,7 +58,7 @@ class LoginContainer extends Component {
               <Segment stacked>
                   <Form.Input 
                   value={email}
-                  onChange={event => this.setState(byPropKey('email',event.target.value))}
+                  onChange={event => this.setState(byPropKey('email',event.target.value.toLowerCase()))}
                   fluid icon='user' 
                   iconPosition='left' 
                   placeholder='Your E-mail address' 
