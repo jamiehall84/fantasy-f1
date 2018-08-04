@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import * as helper from '../constants/helper';
+import { Button, Card } from 'semantic-ui-react'
 
 class PlayerProgressGraph extends Component {
     constructor(props) {
@@ -36,18 +37,27 @@ class PlayerProgressGraph extends Component {
         const { player } = this.state;
         const data = this.graphData();
         return(
-            <ResponsiveContainer width="100%" height={300}>
-                <LineChart width={600} height={300} data={data}>
-                    <XAxis dataKey="name"/>
-                    <YAxis/>
-                    <CartesianGrid strokeDasharray="0"/>
-                    <Tooltip/>
-                    <Legend />
-                    <Line type="monotone" dataKey="Total" stroke="#666" activeDot={{r: 8}} />
-                    <Line type="monotone" dataKey={player.Driver1.code} stroke="#21ba45"/>
-                    <Line type="monotone" dataKey={player.Driver2.code} stroke="#fbbd08" />
-                </LineChart>
-            </ResponsiveContainer>
+            <Card fluid>
+                <Card.Content>
+                    <Card.Header>Your Progress</Card.Header>
+                    <Card.Meta>How have your drivers progressed so far this season?</Card.Meta>
+                    <Card.Description>
+                        <ResponsiveContainer width="100%" height={300}>
+                            <LineChart width={600} height={300} data={data}>
+                                <XAxis dataKey="name"/>
+                                <YAxis/>
+                                <CartesianGrid strokeDasharray="0"/>
+                                <Tooltip/>
+                                <Legend />
+                                <Line type="monotone" dataKey="Total" stroke="#666" activeDot={{r: 8}} />
+                                <Line type="monotone" dataKey={player.Driver1.code} stroke="#21ba45"/>
+                                <Line type="monotone" dataKey={player.Driver2.code} stroke="#fbbd08" />
+                            </LineChart>
+                        </ResponsiveContainer>
+                    </Card.Description>
+                </Card.Content>
+            </Card>
+            
         );
     }
 }

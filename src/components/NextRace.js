@@ -36,10 +36,9 @@ class NextRace extends Component {
     return (
         
         <div>
-            <Header as='h3' color='green'>Next Race:</Header>
             <Card fluid>
                 <Card.Content>
-                    <Card.Header>{nextRace.raceName}</Card.Header>
+                    <Card.Header>Next Race: {nextRace.raceName}</Card.Header>
                     <Card.Meta>
                        <Moment fromNow>{nextRace.actualTime}</Moment>
                     </Card.Meta>

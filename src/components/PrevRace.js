@@ -49,11 +49,10 @@ class PreviousRace extends Component {
         const { previousRace } = this.state;
     return (
         
-        <div>
-            <Header as='h3' color='green'>Previous Race:</Header>
+        <div>   
             <Card fluid>
                 <Card.Content>
-                    <Card.Header>{previousRace.raceName}</Card.Header>
+                    <Card.Header>Previous Race: {previousRace.raceName}</Card.Header>
                     <Card.Meta>
                        <Moment fromNow>{previousRace.actualTime}</Moment>
                     </Card.Meta>
