@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Header, Table } from 'semantic-ui-react';
+import { Header, Table, Icon } from 'semantic-ui-react';
 import Moment from 'react-moment';
 
 class RaceList extends Component {
@@ -17,6 +17,7 @@ class RaceList extends Component {
                     <Table.HeaderCell>Round</Table.HeaderCell>
                     <Table.HeaderCell>Name</Table.HeaderCell>
                     <Table.HeaderCell>Date</Table.HeaderCell>
+                    <Table.HeaderCell collapsing></Table.HeaderCell>
                 </Table.Row>
                 </Table.Header>
             
@@ -32,6 +33,7 @@ class RaceList extends Component {
                         <Table.Cell>
                             <Moment format="DD MMM YY">{season.races[key].date}</Moment>
                         </Table.Cell>
+                        <Table.Cell textAlign='right' collapsing><Icon name='chevron right' /></Table.Cell>
                     </Table.Row>
                     )}
                 </Table.Body>

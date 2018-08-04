@@ -3,6 +3,7 @@ import {
     Header,
     Table,
     Label,
+    Icon,
   } from 'semantic-ui-react';
 import AddPlayerForm from './AddPlayerForm';
 import * as helper from '../constants/helper';
@@ -45,6 +46,7 @@ class PlayerList extends Component {
                     <Table.HeaderCell>Driver 1</Table.HeaderCell>
                     <Table.HeaderCell>Driver 2</Table.HeaderCell>
                     <Table.HeaderCell>Pts</Table.HeaderCell>
+                    <Table.HeaderCell collapsing></Table.HeaderCell>
                 </Table.Row>
                 </Table.Header>
             
@@ -52,6 +54,7 @@ class PlayerList extends Component {
                 {Object.keys(season.Players.sort(this.sortPlayers)).map(key =>
                     <Table.Row key={key}  onClick={(player)=> this.props.viewPlayer(season.Players[key])} style={ season.Players[key] === player ? {'backgroundColor': '#16ab39'} : null }>
                         <Table.Cell >
+                            
                             {parseInt(key,10) === 0 ?
                                 <Label ribbon color='yellow'>{parseInt(key,10)+1}</Label>
                             : 
@@ -70,6 +73,7 @@ class PlayerList extends Component {
                             {season.Players[key].Driver2.code}
                         </Table.Cell>
                         <Table.Cell>{season.Players[key].total}</Table.Cell>
+                        <Table.Cell textAlign='right' collapsing><Icon name='chevron right' /></Table.Cell>
                     </Table.Row>
                     )}
                 </Table.Body>
