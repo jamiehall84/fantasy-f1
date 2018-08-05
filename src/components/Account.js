@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AuthUserContext from './AuthUserContext';
-import { PasswordForgotForm } from './PasswordForget';
+import ProfileForm from './ProfileForm';
 import PasswordChangeForm from './PasswordChange';
 import withAuthorization from '../components/withAuthorization';
 import { db } from '../firebase';
@@ -35,7 +35,7 @@ class AccountPage extends Component {
                                 {/* <Image src={authUser.photoURL} size='medium' circular /> */}
                                 </Grid.Column>
                                 <Grid.Column>
-
+                                    <ProfileForm user={authUser} season={this.props.season} /> 
                                 </Grid.Column>
                                 <Grid.Column>
                                     {/* <Header as='h3' color='green'>Password shit</Header>
