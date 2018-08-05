@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import { auth } from '../firebase';
 import {
-    Container,
-    Image,
-    Segment,
-    Grid,
-    Header,
+    Card,
     Form,
     Button
   } from 'semantic-ui-react';
@@ -47,37 +43,35 @@ class PasswordChangeForm extends Component {
         const isInvalid = passwordOne !== passwordTwo || passwordOne === '';
 
         return(
-            <Container style={{ marginTop: '7em' }}>
-                <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
-                <Grid.Column style={{ maxWidth: 450 }}>
-                    <Header as='h4' color='black' textAlign='center'>Reset My Password</Header>
-                    <Form size='large' onSubmit={this.onSubmit}>
-                    <Segment stacked>
-                        <Form.Input 
-                        value={passwordOne}
-                        onChange={event => this.setState(byPropKey('passwordOne',event.target.value))}
-                        type='password'
-                        fluid icon='user' 
-                        iconPosition='left' 
-                        placeholder='Your new password' 
-                        />
-                        <Form.Input 
-                        value={passwordTwo}
-                        onChange={event => this.setState(byPropKey('passwordTwo',event.target.value))}
-                        type='password'
-                        fluid icon='user' 
-                        iconPosition='left' 
-                        placeholder='Confirm your new password' 
-                        />
-                        <Button color='green' fluid size='large' type="submit" disabled={isInvalid}>
-                        Reset My Password
-                        </Button>
-                        { error && error.message }
-                    </Segment>
-                    </Form>
-                </Grid.Column>
-                </Grid>
-            </Container>
+            <Card fluid>
+                <Card.Content>
+                    <Card.Header>Change my password</Card.Header>
+                    <Card.Description>
+                        <Form size='large' onSubmit={this.onSubmit}>
+                            <Form.Input 
+                            value={passwordOne}
+                            onChange={event => this.setState(byPropKey('passwordOne',event.target.value))}
+                            type='password'
+                            fluid icon='user' 
+                            iconPosition='left' 
+                            placeholder='Your new password' 
+                            />
+                            <Form.Input 
+                            value={passwordTwo}
+                            onChange={event => this.setState(byPropKey('passwordTwo',event.target.value))}
+                            type='password'
+                            fluid icon='user' 
+                            iconPosition='left' 
+                            placeholder='Confirm your new password' 
+                            />
+                            <Button color='green' fluid size='large' type="submit" disabled={isInvalid}>
+                            Reset My Password
+                            </Button>
+                            { error && error.message }
+                        </Form>
+                    </Card.Description>
+                </Card.Content>
+            </Card>
         );
     }
 }

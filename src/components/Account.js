@@ -25,7 +25,10 @@ class AccountPage extends Component {
                     <Container style={{ marginTop: '6em' }}>
                         <Header as='h1' color='green'>{authUser.displayName}</Header>
                         
-                        <Grid columns={3} divided stackable>
+                        <Grid
+                        columns={3}
+                        stackable
+                        >
                             <Grid.Row>
                                 <Grid.Column>
                                     <p>So... I've not sorted out the profile page yet. But the idea is that this is where you will be able to manage your account. Update your password, add profile pics, that kinda shit. However, being that all that shit aint really important, it can wait.</p>
@@ -36,8 +39,8 @@ class AccountPage extends Component {
                                 </Grid.Column>
                                 <Grid.Column>
                                     {/* <Header as='h3' color='green'>Password shit</Header>
-                                    <PasswordForgotForm />
-                                    <PasswordChangeForm /> */}
+                                    <PasswordForgotForm />*/}
+                                    <PasswordChangeForm /> 
                                 </Grid.Column>
                             </Grid.Row>
                         </Grid>
