@@ -44,18 +44,26 @@ class Dashboard extends Component {
                         <p>Welcome to the Fantasy F1 app. This is still a bit of a work in progress, so I'm hoping that you will let me know if you spot anything that is not working as you would expect it to. Likewise, if you think of any cool features, let me know and I will see if I can get it added in. Enjoy!!</p>
                     </Message>
                     <Header as='h1' color='green'></Header>
-                    <PlayerProgressGraph user={authUser} season={season}/>
-                    <PlayerList season={season} viewPlayer={this.viewPlayer.bind(this)} user={authUser} />
-                    <Grid columns={2} stackable style={{marginTop: '1em', marginBottom: '1em' }} >
-                        <Grid.Row>
-                            <Grid.Column>
-                                <PreviousRace season={season} viewRace={this.viewRace.bind(this)} user={authUser} />
-                            </Grid.Column>
-                            <Grid.Column>
-                                <NextRace season={season} viewRace={this.viewRace.bind(this)} />
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
+                    {season.Players ? (
+                        <div>
+                            <PlayerProgressGraph user={authUser} season={season}/>
+                            <PlayerList season={season} viewPlayer={this.viewPlayer.bind(this)} user={authUser} />
+                            <Grid columns={2} stackable style={{marginTop: '1em', marginBottom: '1em' }} >
+                                <Grid.Row>
+                                    <Grid.Column>
+                                        <PreviousRace season={season} viewRace={this.viewRace.bind(this)} user={authUser} />
+                                    </Grid.Column>
+                                    <Grid.Column>
+                                        <NextRace season={season} viewRace={this.viewRace.bind(this)} />
+                                    </Grid.Column>
+                                </Grid.Row>
+                            </Grid>
+                        </div>
+                    ) : (
+                        <div>
+                            <p>There are currently no players for this season.</p>
+                        </div>
+                    )}
                     <RaceList season={season} viewRace={this.viewRace.bind(this)} style={{marginTop: '1em', marginBottom: '1em' }} />
                 </Container>
             }

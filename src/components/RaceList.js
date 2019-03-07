@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Header, Table, Icon, Card, } from 'semantic-ui-react';
+import { Table, Icon, Card, } from 'semantic-ui-react';
 import Moment from 'react-moment';
 
 class RaceList extends Component {

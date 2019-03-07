@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Header, Card, Button } from 'semantic-ui-react';
+import { Card, Button } from 'semantic-ui-react';
 import Moment from 'react-moment';
 
 class NextRace extends Component {
@@ -34,8 +34,8 @@ class NextRace extends Component {
     render() {
         const {nextRace} = this.state;
     return (
-        
         <div>
+        {nextRace.raceName !== undefined &&
             <Card fluid>
                 <Card.Content>
                     <Card.Header>Next Race: {nextRace.raceName}</Card.Header>
@@ -52,6 +52,7 @@ class NextRace extends Component {
                     </Button>
                 </Card.Content>
             </Card>
+        }
         </div>
     );
     }

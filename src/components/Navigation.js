@@ -32,7 +32,7 @@ import {
                             <Icon name='user' />
                             Profile
                         </Menu.Item>
-                        {user.email=='jamiehall84@gmail.com'&&
+                        {user.email === 'jamiehall84@gmail.com'&&
                             <Menu.Item as={Link} to={routes.ADMIN}>
                                 <Icon name='user' />
                                 Admin
@@ -51,24 +51,24 @@ import {
   }
 
 
-const NavigationAuth = (user) =>
-  <div>
-        <Menu.Item as={Link} to={routes.HOME} >
-            <Icon name='home' />
-            Home
-        </Menu.Item>
-        <Menu.Item as={Link} to={routes.ACCOUNT}>
-            <Icon name='user' />
-            Profile
-        </Menu.Item>
-        {user.uid=='pbxPXDuUv5Pj8rwwBWmm3JOmhqo2'&&
-            <Menu.Item as={Link} to={routes.ADMIN}>
-                <Icon name='user' />
-                Admin
-            </Menu.Item>
-        }
-        <SignOutButton />
-  </div>
+// const NavigationAuth = (user) =>
+//   <div>
+//         <Menu.Item as={Link} to={routes.HOME} >
+//             <Icon name='home' />
+//             Home
+//         </Menu.Item>
+//         <Menu.Item as={Link} to={routes.ACCOUNT}>
+//             <Icon name='user' />
+//             Profile
+//         </Menu.Item>
+//         {user.uid === 'pbxPXDuUv5Pj8rwwBWmm3JOmhqo2'&&
+//             <Menu.Item as={Link} to={routes.ADMIN}>
+//                 <Icon name='user' />
+//                 Admin
+//             </Menu.Item>
+//         }
+//         <SignOutButton />
+//   </div>
 
 const NavigationNonAuth = () =>
   <div>

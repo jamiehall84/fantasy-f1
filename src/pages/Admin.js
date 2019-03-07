@@ -28,7 +28,7 @@ class AdminPage extends Component {
         );
     }
     getSeason = () => {
-        axios.get(`https://ergast.com/api/f1/2018.json`)
+        axios.get(`https://ergast.com/api/f1/2019.json`)
           .then( res => {
             const season = res.data.MRData.RaceTable;
             db.doCreateSeason(season.season)
@@ -66,7 +66,7 @@ class AdminPage extends Component {
           });
       }
       getQualifying = (race) => {
-        axios.get(`https://ergast.com/api/f1/2018/${race.round}/qualifying.json`)
+        axios.get(`https://ergast.com/api/f1/2019/${race.round}/qualifying.json`)
           .then( res => {
             const data = res.data.MRData.RaceTable;
             if(data.Races[0]!=null){
@@ -81,7 +81,7 @@ class AdminPage extends Component {
       }
 
       getResults = (race) => {
-        axios.get(`https://ergast.com/api/f1/2018/${race.round}/results.json`)
+        axios.get(`https://ergast.com/api/f1/2019/${race.round}/results.json`)
           .then( res => {
             const data = res.data.MRData.RaceTable;
             if(data.Races[0]!=null){
@@ -95,7 +95,7 @@ class AdminPage extends Component {
           });
       }
       getDrivers = () => {
-        axios.get(`https://ergast.com/api/f1/2018/drivers.json`)
+        axios.get(`https://ergast.com/api/f1/2019/drivers.json`)
           .then( res => {
             const data = res.data.MRData.DriverTable.Drivers;
             if(data[0]!=null){
@@ -108,6 +108,12 @@ class AdminPage extends Component {
             }
           });
       }
+      createSeason = (year) => {
+          if(!isNaN(year)){
+            db.doCreateSeason(year);
+          }
+
+      }
       render(){
           const { seasons } = this.state;
           return(
@@ -119,6 +125,7 @@ class AdminPage extends Component {
                         {/* { !!races && <RaceList races={races} /> } */}
                         <p>
                             <Button onClick={() => this.getSeason()} >Get Season Data</Button>
+                            {/* <Button onClick={() => this.createSeason(2019)} >Create 2019 Season</Button> */}
                             <Button onClick={() => this.getDrivers()} color='red' >Get Season Drivers</Button>
                         </p>
                     </Container>

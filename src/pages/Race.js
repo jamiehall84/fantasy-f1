@@ -249,15 +249,15 @@ const sortRaceResults = (a,b) => {
     }
     return 0;
 }
-const sortPlayers = (a,b) => {
-    if (parseInt(a.total,10) < parseInt(b.total,10)){
-        return 1;
-    }
-    if (parseInt(a.total,10) > parseInt(b.total,10)){
-        return -1;
-    }
-    return 0;
-  }
+// const sortPlayers = (a,b) => {
+//     if (parseInt(a.total,10) < parseInt(b.total,10)){
+//         return 1;
+//     }
+//     if (parseInt(a.total,10) > parseInt(b.total,10)){
+//         return -1;
+//     }
+//     return 0;
+//   }
   const sortDriverPoints = (a,b) => {
     if (parseInt(a.Points.total,10) < parseInt(b.Points.total,10)){
         return 1;
