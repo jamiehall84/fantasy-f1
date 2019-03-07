@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import * as helper from '../constants/helper';
-import { Button, Card } from 'semantic-ui-react'
+import { Card } from 'semantic-ui-react'
 
 class PlayerProgressGraph extends Component {
     constructor(props) {

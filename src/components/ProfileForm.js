@@ -41,9 +41,6 @@ class ProfileForm extends Component {
     }
     render(){
         const {
-            user
-        } = this.props;
-        const {
             displayName,
             player,
             error,

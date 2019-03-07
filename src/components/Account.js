@@ -3,9 +3,7 @@ import AuthUserContext from './AuthUserContext';
 import ProfileForm from './ProfileForm';
 import PasswordChangeForm from './PasswordChange';
 import withAuthorization from '../components/withAuthorization';
-import { db } from '../firebase';
 import {
-    Image,
     Container,
     Header,
     Grid,
@@ -18,7 +16,6 @@ class AccountPage extends Component {
         }
     }
       render(){
-          const { player } = this.state;
           return(
             <AuthUserContext.Consumer>
                 {authUser => 
