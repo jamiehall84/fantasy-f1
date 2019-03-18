@@ -36,6 +36,7 @@ class PlayerList extends Component {
         {season.Players === undefined ? (
             <div>
                 <p>There are not any players yet for this season.</p>
+                <AddPlayerForm season={season} addPlayer={this.addPlayer.bind(this)} />
             </div>
         ) : (
             <div>

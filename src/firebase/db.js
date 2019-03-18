@@ -71,6 +71,9 @@ export const doSetDrivers = (year, Drivers) =>
     db.ref(`seasons/${year}/Drivers`)
         .set(Drivers);
 
+export const doGetDrivers = (year) =>
+    db.ref(`seasons/${year}/Drivers`).once('value');
+
 // QUALIFYING
 export const doSetQualifying = (year, round, QualifyingResults) =>
     db.ref(`seasons/${year}/races/${round}/QualifyingResults`)

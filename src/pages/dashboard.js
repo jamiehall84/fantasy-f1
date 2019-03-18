@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import {
     Container,
-    Grid,
-    Header,
-    Message,
+    Grid
   } from 'semantic-ui-react';
 
 import withAuthorization from '../components/withAuthorization';
@@ -38,12 +36,6 @@ class Dashboard extends Component {
             <AuthUserContext.Consumer>
             {authUser => 
                 <Container style={{ marginTop: '7em' }}>
-                    <Message
-                        color='green'>
-                        <Message.Header>Hi {authUser.displayName}</Message.Header>
-                        <p>Welcome to the Fantasy F1 app. This is still a bit of a work in progress, so I'm hoping that you will let me know if you spot anything that is not working as you would expect it to. Likewise, if you think of any cool features, let me know and I will see if I can get it added in. Enjoy!!</p>
-                    </Message>
-                    <Header as='h1' color='green'></Header>
                     {season.Players ? (
                         <div>
                             <PlayerProgressGraph user={authUser} season={season}/>

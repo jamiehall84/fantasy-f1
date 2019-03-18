@@ -9,6 +9,7 @@ const INITIAL_STATE = {
     Driver2: '',
     email: '',
     error: null,
+    Drivers: []
   };
 
 const byPropKey = (propertyName, value) => () => ({
@@ -20,6 +21,10 @@ class AddPlayerForm extends Component {
     super(props);
 
     this.state = { ...INITIAL_STATE };
+  }
+  componentDidMount = () => {
+    db.doGetDrivers(this.props.season.year)
+      .then(drivers => this.setState({Drivers: drivers.val()}));
   }
   
   onSubmit = (event) => {
@@ -43,7 +48,7 @@ class AddPlayerForm extends Component {
         'displayName': displayName
     };
     const key = season.Players == null? 0 : season.Players.length;
-    db.doCreatePlayer(key,season.year, Name, Driver1, Driver2, email)
+    db.doCreatePlayer(key,season.year, Name, this.state.Drivers[Driver1], this.state.Drivers[Driver2], email)
       .then(() => {
         this.setState(() => ({ ...INITIAL_STATE }));
         addPlayer();
@@ -94,18 +99,22 @@ class AddPlayerForm extends Component {
           type="text"
           placeholder="Email Address"
         />
-        <input
+        <select
+          name='Driver1'
           value={Driver1}
           onChange={event => this.setState(byPropKey('Driver1', event.target.value))}
-          type="text"
-          placeholder="Driver 1"
-        />
-        <input
+          placeholder='Driver 1'>
+          {this.state.Drivers.map((driver, index) => <option key={index} value={index}>{`${driver.givenName} ${driver.familyName}`}</option>
+          )}
+        </select>
+        <select
+          name='Driver2'
           value={Driver2}
           onChange={event => this.setState(byPropKey('Driver2', event.target.value))}
-          type="text"
-          placeholder="Driver 2"
-        />
+          placeholder='Driver 2'>
+          {this.state.Drivers.map((driver, index) => <option key={index} value={index}>{`${driver.givenName} ${driver.familyName}`}</option>
+          )}
+        </select>
         <button type="submit" disabled={isInvalid}>
           Add Player
         </button>

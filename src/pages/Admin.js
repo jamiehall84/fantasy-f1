@@ -99,7 +99,7 @@ class AdminPage extends Component {
           .then( res => {
             const data = res.data.MRData.DriverTable.Drivers;
             if(data[0]!=null){
-                db.doSetDrivers(2018, data)
+                db.doSetDrivers(2019, data)
                 .then(() => {
                     console.log(`Drivers for this season have been added to the database.`);
                 }).catch(error => {

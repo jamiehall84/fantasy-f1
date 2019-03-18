@@ -75,11 +75,14 @@ class App extends React.Component {
 		// Go through each race and check for qualifying & race results.
 		for (let i = 1; i < season.races.length; i++) {
 			const race = season.races[i];
-			if(race.QualifyingResults === undefined){
-				this.getQualifying(race);
-			}
-			if(race.Results === undefined){
-				this.getResults(race);
+			const raceDate = new Date(race.date);
+			if(raceDate < new Date()){
+				if(race.QualifyingResults === undefined){
+					this.getQualifying(race);
+				}
+				if(race.Results === undefined){
+					this.getResults(race);
+				}
 			}
 		}
 		// Go though each player and update their points
@@ -94,28 +97,28 @@ class App extends React.Component {
 			for(let r = 1; r < season.races.length; r++){
 				const race = season.races[r];
 				if(race.Results !== undefined){
-					let d1 = race.Results.filter(res => { return res.Driver.code === player.Driver1.code });
-					let d2 = race.Results.filter(res => { return res.Driver.code === player.Driver2.code });
+					let d1 = race.Results.find(x => x.Driver.code === player.Driver1.code );
+					let d2 = race.Results.find(x => x.Driver.code === player.Driver2.code );
 					let driver1 = {
-						'code': d1[0].Driver.code,
-						'grid': d1[0].grid,
-						'position': d1[0].position,
-						'result': d1[0].Points.result,
-						'difference': d1[0].Points.difference,
-						'total': d1[0].Points.total
+						'code': d1.Driver.code,
+						'grid': d1.grid,
+						'position': d1.position,
+						'result': d1.Points.result,
+						'difference': d1.Points.difference,
+						'total': d1.Points.total
 					};
 					let driver2 = {
-						'code': d2[0].Driver.code,
-						'grid': d2[0].grid,
-						'position': d2[0].position,
-						'result': d2[0].Points.result,
-						'difference': d2[0].Points.difference,
-						'total': d2[0].Points.total
+						'code': d2.Driver.code,
+						'grid': d2.grid,
+						'position': d2.position,
+						'result': d2.Points.result,
+						'difference': d2.Points.difference,
+						'total': d2.Points.total
 					};
 					let total = {
-						'result': d1[0].Points.result + d2[0].Points.result,
-						'difference': d1[0].Points.difference + d2[0].Points.difference,
-						'total': (d1[0].Points.result + d2[0].Points.result) + (d1[0].Points.difference + d2[0].Points.difference)
+						'result': d1.Points.result + d2.Points.result,
+						'difference': d1.Points.difference + d2.Points.difference,
+						'total': (d1.Points.result + d2.Points.result) + (d1.Points.difference + d2.Points.difference)
 					}
 					
 					player.Points[r] = {
@@ -135,8 +138,9 @@ class App extends React.Component {
 		this.GetSeason();
 	}
 
-	getQualifying = (race) => {
-		axios.get(`https://ergast.com/api/f1/2018/${race.round}/qualifying.json`)
+	getQualifying = async(race) => {
+		console.log(`getting qualifying results for race ${race.round} of ${this.state.season.year}`);
+		axios.get(`https://ergast.com/api/f1/${this.state.season.year}/${race.round}/qualifying.json`)
 			.then( res => {
 				const data = res.data.MRData.RaceTable;
 				if(data.Races[0]!=null){
@@ -150,8 +154,9 @@ class App extends React.Component {
 			});
 	}
 
-	getResults = (race) => {
-		axios.get(`https://ergast.com/api/f1/2018/${race.round}/results.json`)
+	getResults = async(race) => {
+		console.log(`getting race results for race ${race.round} of ${this.state.season.year}`);
+		axios.get(`https://ergast.com/api/f1/${this.state.season.year}/${race.round}/results.json`)
 			.then( res => {
 				const data = res.data.MRData.RaceTable;
 				if(data.Races[0]!=null){
